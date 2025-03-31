@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --color-primary: #fe9595;
+  --color-secondary: #ffd1c4;
+  --color-destructive: #e63946;
+  --color-accent: #f4b6b6;
+  --color-background: #fff5f5;
+  --color-foreground: #4a1c1c;
+  --color-lightRose: #f8c8c8;
+  --color-softPeach: #ffd1c4;
+  --color-warmCoral: #ff8a80;
+  --color-cherryBlossom: #ffa3a3;
+  --color-sunsetRed: #e63946;
+  --color-deepCrimson: #c1272d;
+  --color-mutedRose: #f4b6b6;
+}
