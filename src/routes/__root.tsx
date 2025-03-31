@@ -45,8 +45,8 @@ const navRoutes: {
 
 export const Route = createRootRoute({
   component: () => (
-    <main className="relative mx-auto h-screen max-h-screen max-w-screen-sm pb-20">
-      <div className="absolute bottom-0 flex h-20 w-full bg-pitza-coral">
+    <main className="relative mx-auto h-screen max-h-screen max-w-screen-sm overflow-y-auto pb-20">
+      <div className="bg-primary absolute bottom-0 flex h-20 w-full">
         {navRoutes.map((route) => (
           <Link
             key={route.to}
@@ -58,7 +58,6 @@ export const Route = createRootRoute({
           </Link>
         ))}
       </div>
-      <hr className="my-4" />
       <Outlet />
       <TanStackRouterDevtools />
     </main>
