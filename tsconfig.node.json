@@ -19,8 +19,8 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
-
-    "baseUrl": "./",
+    "types": ["kakao.maps.d.ts"],
+    "baseUrl": ".",
     "paths": {
       "@/*": ["*"],
       "@assets/*": ["assets/*"],
