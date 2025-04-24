@@ -14,8 +14,12 @@
     "@tanstack/react-query": "^5.71.1",
     "@tanstack/react-router": "^1.114.29",
     "axios": "^1.8.4",
+    "firebase": "^11.6.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-hook-form": "^7.56.1",
+    "react-kakao-maps-sdk": "^1.1.27",
+    "zustand": "^5.0.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
@@ -34,6 +38,7 @@
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^15.15.0",
+    "msw": "^2.7.5",
     "postcss": "^8",
     "prettier": "^3.5.3",
     "prettier-plugin-tailwindcss": "^0.6.11",
