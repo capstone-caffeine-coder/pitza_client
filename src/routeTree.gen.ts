@@ -12,11 +12,15 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as MypageImport } from './routes/mypage'
+import { Route as LoginImport } from './routes/login'
 import { Route as DonercardImport } from './routes/donercard'
-import { Route as DonateImport } from './routes/donate'
 import { Route as ChatImport } from './routes/chat'
+import { Route as CenterImport } from './routes/center'
 import { Route as AboutImport } from './routes/about'
 import { Route as IndexImport } from './routes/index'
+import { Route as DonationIndexImport } from './routes/donation/index'
+import { Route as DonationMatchImport } from './routes/donation/match'
+import { Route as DonationCreateImport } from './routes/donation/create'
 
 // Create/Update Routes
 
@@ -26,21 +30,27 @@ const MypageRoute = MypageImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const LoginRoute = LoginImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const DonercardRoute = DonercardImport.update({
   id: '/donercard',
   path: '/donercard',
   getParentRoute: () => rootRoute,
 } as any)
 
-const DonateRoute = DonateImport.update({
-  id: '/donate',
-  path: '/donate',
-  getParentRoute: () => rootRoute,
-} as any)
-
 const ChatRoute = ChatImport.update({
   id: '/chat',
   path: '/chat',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const CenterRoute = CenterImport.update({
+  id: '/center',
+  path: '/center',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -53,6 +63,24 @@ const AboutRoute = AboutImport.update({
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const DonationIndexRoute = DonationIndexImport.update({
+  id: '/donation/',
+  path: '/donation/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const DonationMatchRoute = DonationMatchImport.update({
+  id: '/donation/match',
+  path: '/donation/match',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const DonationCreateRoute = DonationCreateImport.update({
+  id: '/donation/create',
+  path: '/donation/create',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -74,18 +102,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutImport
       parentRoute: typeof rootRoute
     }
+    '/center': {
+      id: '/center'
+      path: '/center'
+      fullPath: '/center'
+      preLoaderRoute: typeof CenterImport
+      parentRoute: typeof rootRoute
+    }
     '/chat': {
       id: '/chat'
       path: '/chat'
       fullPath: '/chat'
       preLoaderRoute: typeof ChatImport
-      parentRoute: typeof rootRoute
-    }
-    '/donate': {
-      id: '/donate'
-      path: '/donate'
-      fullPath: '/donate'
-      preLoaderRoute: typeof DonateImport
       parentRoute: typeof rootRoute
     }
     '/donercard': {
@@ -95,11 +123,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DonercardImport
       parentRoute: typeof rootRoute
     }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginImport
+      parentRoute: typeof rootRoute
+    }
     '/mypage': {
       id: '/mypage'
       path: '/mypage'
       fullPath: '/mypage'
       preLoaderRoute: typeof MypageImport
+      parentRoute: typeof rootRoute
+    }
+    '/donation/create': {
+      id: '/donation/create'
+      path: '/donation/create'
+      fullPath: '/donation/create'
+      preLoaderRoute: typeof DonationCreateImport
+      parentRoute: typeof rootRoute
+    }
+    '/donation/match': {
+      id: '/donation/match'
+      path: '/donation/match'
+      fullPath: '/donation/match'
+      preLoaderRoute: typeof DonationMatchImport
+      parentRoute: typeof rootRoute
+    }
+    '/donation/': {
+      id: '/donation/'
+      path: '/donation'
+      fullPath: '/donation'
+      preLoaderRoute: typeof DonationIndexImport
       parentRoute: typeof rootRoute
     }
   }
@@ -110,63 +166,107 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/center': typeof CenterRoute
   '/chat': typeof ChatRoute
-  '/donate': typeof DonateRoute
   '/donercard': typeof DonercardRoute
+  '/login': typeof LoginRoute
   '/mypage': typeof MypageRoute
+  '/donation/create': typeof DonationCreateRoute
+  '/donation/match': typeof DonationMatchRoute
+  '/donation': typeof DonationIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/center': typeof CenterRoute
   '/chat': typeof ChatRoute
-  '/donate': typeof DonateRoute
   '/donercard': typeof DonercardRoute
+  '/login': typeof LoginRoute
   '/mypage': typeof MypageRoute
+  '/donation/create': typeof DonationCreateRoute
+  '/donation/match': typeof DonationMatchRoute
+  '/donation': typeof DonationIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/center': typeof CenterRoute
   '/chat': typeof ChatRoute
-  '/donate': typeof DonateRoute
   '/donercard': typeof DonercardRoute
+  '/login': typeof LoginRoute
   '/mypage': typeof MypageRoute
+  '/donation/create': typeof DonationCreateRoute
+  '/donation/match': typeof DonationMatchRoute
+  '/donation/': typeof DonationIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/chat' | '/donate' | '/donercard' | '/mypage'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/center'
+    | '/chat'
+    | '/donercard'
+    | '/login'
+    | '/mypage'
+    | '/donation/create'
+    | '/donation/match'
+    | '/donation'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/chat' | '/donate' | '/donercard' | '/mypage'
+  to:
+    | '/'
+    | '/about'
+    | '/center'
+    | '/chat'
+    | '/donercard'
+    | '/login'
+    | '/mypage'
+    | '/donation/create'
+    | '/donation/match'
+    | '/donation'
   id:
     | '__root__'
     | '/'
     | '/about'
+    | '/center'
     | '/chat'
-    | '/donate'
     | '/donercard'
+    | '/login'
     | '/mypage'
+    | '/donation/create'
+    | '/donation/match'
+    | '/donation/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  CenterRoute: typeof CenterRoute
   ChatRoute: typeof ChatRoute
-  DonateRoute: typeof DonateRoute
   DonercardRoute: typeof DonercardRoute
+  LoginRoute: typeof LoginRoute
   MypageRoute: typeof MypageRoute
+  DonationCreateRoute: typeof DonationCreateRoute
+  DonationMatchRoute: typeof DonationMatchRoute
+  DonationIndexRoute: typeof DonationIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  CenterRoute: CenterRoute,
   ChatRoute: ChatRoute,
-  DonateRoute: DonateRoute,
   DonercardRoute: DonercardRoute,
+  LoginRoute: LoginRoute,
   MypageRoute: MypageRoute,
+  DonationCreateRoute: DonationCreateRoute,
+  DonationMatchRoute: DonationMatchRoute,
+  DonationIndexRoute: DonationIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -181,10 +281,14 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/about",
+        "/center",
         "/chat",
-        "/donate",
         "/donercard",
-        "/mypage"
+        "/login",
+        "/mypage",
+        "/donation/create",
+        "/donation/match",
+        "/donation/"
       ]
     },
     "/": {
@@ -193,17 +297,29 @@ export const routeTree = rootRoute
     "/about": {
       "filePath": "about.tsx"
     },
+    "/center": {
+      "filePath": "center.tsx"
+    },
     "/chat": {
       "filePath": "chat.tsx"
-    },
-    "/donate": {
-      "filePath": "donate.tsx"
     },
     "/donercard": {
       "filePath": "donercard.tsx"
     },
+    "/login": {
+      "filePath": "login.tsx"
+    },
     "/mypage": {
       "filePath": "mypage.tsx"
+    },
+    "/donation/create": {
+      "filePath": "donation/create.tsx"
+    },
+    "/donation/match": {
+      "filePath": "donation/match.tsx"
+    },
+    "/donation/": {
+      "filePath": "donation/index.tsx"
     }
   }
 }
