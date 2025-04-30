@@ -17,6 +17,7 @@ export default {
         sunsetRed: "var(--color-sunsetRed)",
         deepCrimson: "var(--color-deepCrimson)",
         mutedRose: "var(--color-mutedRose)",
+        subText: "var(--color-subText)",
       },
       keyframes: {
         "fade-up": {
