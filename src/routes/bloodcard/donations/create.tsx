@@ -8,7 +8,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 import { IoMdCamera } from "react-icons/io";
 
-export const Route = createFileRoute("/bloodcard/donate/create")({
+export const Route = createFileRoute("/bloodcard/donations/create")({
   component: RouteComponent,
 });
 
