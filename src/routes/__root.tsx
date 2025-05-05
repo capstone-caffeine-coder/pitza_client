@@ -12,6 +12,7 @@ import { BsChatLeftDots } from "react-icons/bs";
 import { FaMapLocationDot } from "react-icons/fa6";
 import { AuthState } from "@/src/store/authStore";
 import { initializeApp } from "firebase/app";
+import { NotFoundComponent } from "@/src/components/common/error";
 
 const navRoutes: {
   to: ValidateToPath;
@@ -83,4 +84,5 @@ const RootRoute = () => {
 };
 export const Route = createRootRouteWithContext<RouterContext>()({
   component: RootRoute,
+  notFoundComponent: NotFoundComponent,
 });
