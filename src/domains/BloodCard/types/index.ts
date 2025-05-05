@@ -23,4 +23,28 @@ interface BloodDonerCard {
   createdAt: string;
 }
 
-export type { BloodCard, BloodDonerCard };
+type BloodcardDonate = {
+  id: string;
+  nickname: string;
+  donationDate: string;
+  donationLocation: string;
+  profile_image: string;
+  image: string;
+  introduce: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+type BloodcardRequest = {
+  id: string;
+  nickname: string;
+  donationLocation: string;
+  profile_image: string;
+  image: string;
+  introduce: string;
+  story: string;
+  createdAt: string; // ISO 8601 날짜 문자열
+  updatedAt: string; // ISO 8601 날짜 문자열
+};
+
+export type { BloodCard, BloodDonerCard, BloodcardDonate, BloodcardRequest };
