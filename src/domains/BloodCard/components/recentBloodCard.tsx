@@ -25,7 +25,8 @@ function RecentBloodCard() {
       <div className="flex flex-col gap-2">
         {data?.map((card) => (
           <Link
-            to={`/donercard/${card.id}`}
+            to={`/bloodcard/request/detail/$postId`}
+            params={{ postId: card.id }}
             key={card.id}
             className="flex gap-2 rounded-xl border-2 border-primary p-4"
           >
