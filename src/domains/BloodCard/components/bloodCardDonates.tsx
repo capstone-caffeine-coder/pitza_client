@@ -19,7 +19,8 @@ function BloodCardDonates() {
       <div className="mt-6 flex flex-col gap-4">
         {bloodCardRequests.map((card) => (
           <Link
-            to="/bloodcard/donate/create"
+            to={"/bloodcard/donations/detail/$postId"}
+            params={{ postId: card.id }}
             key={card.id}
             className="flex items-center gap-4 rounded-xl border-b p-4"
           >
@@ -37,7 +38,7 @@ function BloodCardDonates() {
         ))}
       </div>
       <Link
-        to="/bloodcard/donate/create"
+        to="/bloodcard/donations/create"
         className="absolute bottom-24 left-0 w-full rounded-xl bg-primary p-4 text-center font-bold text-white"
       >
         헌혈증 기부하기

@@ -18,7 +18,9 @@ export default function BloodCardRequests() {
     <>
       <div className="mt-6 flex flex-col gap-4">
         {bloodCardRequests.map((card) => (
-          <div
+          <Link
+            to="/bloodcard/request/detail/$postId"
+            params={{ postId: card.id }}
             key={card.id}
             className="flex items-center gap-4 rounded-xl border-b p-4"
           >
@@ -32,7 +34,7 @@ export default function BloodCardRequests() {
               <p className="text-subText">나이 : {card.age}세</p>
               <p className="text-subText">{card.location}</p>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
       <Link
