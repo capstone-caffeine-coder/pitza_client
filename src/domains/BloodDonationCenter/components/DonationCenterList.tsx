@@ -1,27 +1,21 @@
 import { Spinner } from "@/src/components/common/spinner";
-import { getBloodDonationCenters } from "@/src/domains/BloodDonationCenter/api";
-import { useLocationContext } from "@/src/domains/BloodDonationCenter/store/locationContext";
-import { useQuery } from "@tanstack/react-query";
+import { useDonationCenter } from "@/src/domains/BloodDonationCenter/hooks/useDonationCenter";
+import { useLocationContext } from "@/src/domains/BloodDonationCenter/hooks/useLocationContext";
 import { FaLocationDot } from "react-icons/fa6";
 
 function DonationCenterList() {
-  const { location } = useLocationContext();
-  const { data, error, isPending } = useQuery({
-    queryKey: ["donationCenter", location.latitude, location.longitude],
-    queryFn: () =>
-      getBloodDonationCenters({
-        latitude: location.latitude,
-        longitude: location.longitude,
-      }),
-  });
+  const { centers, error, isPending } = useDonationCenter();
+  const { changeCenterLocation } = useLocationContext();
+
   if (error) return null;
   if (isPending) return <Spinner />;
   return (
     <div>
-      {data?.map((center) => (
+      {centers?.map((center) => (
         <div
           key={`center-${center.id}`}
-          className="flex items-center gap-2 p-4"
+          className="flex cursor-pointer items-center gap-2 p-4"
+          onClick={() => changeCenterLocation(center.location)}
         >
           <CenterImage src={center.center_image_url} />
           <div>
