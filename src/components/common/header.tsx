@@ -1,7 +1,7 @@
+import { cn } from "@/src/utils/cn";
 import { useRouter } from "@tanstack/react-router";
 import { forwardRef } from "react";
 import { FaChevronLeft } from "react-icons/fa6";
-import { twMerge } from "tailwind-merge";
 
 const Header = forwardRef<
   HTMLHeadingElement,
@@ -11,7 +11,7 @@ const Header = forwardRef<
 
   return (
     <header
-      className={twMerge("relative p-4 text-center")}
+      className={cn("relative p-4 text-center", props.className)}
       {...props}
       ref={ref}
     >
