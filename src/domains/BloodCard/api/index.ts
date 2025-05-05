@@ -1,5 +1,10 @@
 import { apiInstance } from "@/src/api";
-import { BloodCard, BloodDonerCard } from "@/src/domains/BloodCard/types";
+import {
+  BloodCard,
+  BloodcardDonate,
+  BloodcardRequest,
+  BloodDonerCard,
+} from "@/src/domains/BloodCard/types";
 
 type RecentBloodCard = {
   recentBloodCard: BloodCard[];
@@ -29,4 +34,38 @@ async function getBloodCardDonates(): Promise<BloodDonerCard[]> {
   return data.bloodCardDonates;
 }
 
-export { getRecentBloodCard, getBloodCardRequests, getBloodCardDonates };
+type BloodcardDonateDetail = {
+  bloodcardDonateDetail: BloodcardDonate;
+};
+
+async function getBloodCardDonateDetail(id: string): Promise<BloodcardDonate> {
+  const {
+    data: { bloodcardDonateDetail },
+  } = await apiInstance.get<BloodcardDonateDetail>(
+    `/bloodcard/donations/detail/${id}`,
+  );
+  return bloodcardDonateDetail;
+}
+
+type BloodcardRequestDetail = {
+  bloodcardRequestDetail: BloodcardRequest;
+};
+async function getBloodCardRequestDetail(
+  id: string,
+): Promise<BloodcardRequest> {
+  const {
+    data: { bloodcardRequestDetail },
+  } = await apiInstance.get<BloodcardRequestDetail>(
+    `/bloodcard/requests/detail/${id}`,
+  );
+  console.log(bloodcardRequestDetail);
+  return bloodcardRequestDetail;
+}
+
+export {
+  getRecentBloodCard,
+  getBloodCardRequests,
+  getBloodCardDonates,
+  getBloodCardDonateDetail,
+  getBloodCardRequestDetail,
+};
