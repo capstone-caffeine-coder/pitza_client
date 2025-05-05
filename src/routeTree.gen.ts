@@ -13,16 +13,18 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as MypageImport } from './routes/mypage'
 import { Route as LoginImport } from './routes/login'
-import { Route as ChatImport } from './routes/chat'
 import { Route as CenterImport } from './routes/center'
 import { Route as AboutImport } from './routes/about'
 import { Route as IndexImport } from './routes/index'
 import { Route as DonationIndexImport } from './routes/donation/index'
+import { Route as ChatIndexImport } from './routes/chat/index'
 import { Route as BloodcardIndexImport } from './routes/bloodcard/index'
 import { Route as DonationMatchImport } from './routes/donation/match'
 import { Route as DonationCreateImport } from './routes/donation/create'
+import { Route as ChatRoomsRoomIdImport } from './routes/chat/rooms/$roomId'
 import { Route as BloodcardRequestCreateImport } from './routes/bloodcard/request/create'
 import { Route as BloodcardDonationsCreateImport } from './routes/bloodcard/donations/create'
+import { Route as BloodcardRequestDetailPostIdImport } from './routes/bloodcard/request/detail/$postId'
 import { Route as BloodcardDonationsDetailPostIdImport } from './routes/bloodcard/donations/detail/$postId'
 
 // Create/Update Routes
@@ -36,12 +38,6 @@ const MypageRoute = MypageImport.update({
 const LoginRoute = LoginImport.update({
   id: '/login',
   path: '/login',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const ChatRoute = ChatImport.update({
-  id: '/chat',
-  path: '/chat',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -69,6 +65,12 @@ const DonationIndexRoute = DonationIndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const ChatIndexRoute = ChatIndexImport.update({
+  id: '/chat/',
+  path: '/chat/',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const BloodcardIndexRoute = BloodcardIndexImport.update({
   id: '/bloodcard/',
   path: '/bloodcard/',
@@ -87,6 +89,12 @@ const DonationCreateRoute = DonationCreateImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const ChatRoomsRoomIdRoute = ChatRoomsRoomIdImport.update({
+  id: '/chat/rooms/$roomId',
+  path: '/chat/rooms/$roomId',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const BloodcardRequestCreateRoute = BloodcardRequestCreateImport.update({
   id: '/bloodcard/request/create',
   path: '/bloodcard/request/create',
@@ -98,6 +106,13 @@ const BloodcardDonationsCreateRoute = BloodcardDonationsCreateImport.update({
   path: '/bloodcard/donations/create',
   getParentRoute: () => rootRoute,
 } as any)
+
+const BloodcardRequestDetailPostIdRoute =
+  BloodcardRequestDetailPostIdImport.update({
+    id: '/bloodcard/request/detail/$postId',
+    path: '/bloodcard/request/detail/$postId',
+    getParentRoute: () => rootRoute,
+  } as any)
 
 const BloodcardDonationsDetailPostIdRoute =
   BloodcardDonationsDetailPostIdImport.update({
@@ -129,13 +144,6 @@ declare module '@tanstack/react-router' {
       path: '/center'
       fullPath: '/center'
       preLoaderRoute: typeof CenterImport
-      parentRoute: typeof rootRoute
-    }
-    '/chat': {
-      id: '/chat'
-      path: '/chat'
-      fullPath: '/chat'
-      preLoaderRoute: typeof ChatImport
       parentRoute: typeof rootRoute
     }
     '/login': {
@@ -173,6 +181,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BloodcardIndexImport
       parentRoute: typeof rootRoute
     }
+    '/chat/': {
+      id: '/chat/'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof ChatIndexImport
+      parentRoute: typeof rootRoute
+    }
     '/donation/': {
       id: '/donation/'
       path: '/donation'
@@ -194,11 +209,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BloodcardRequestCreateImport
       parentRoute: typeof rootRoute
     }
+    '/chat/rooms/$roomId': {
+      id: '/chat/rooms/$roomId'
+      path: '/chat/rooms/$roomId'
+      fullPath: '/chat/rooms/$roomId'
+      preLoaderRoute: typeof ChatRoomsRoomIdImport
+      parentRoute: typeof rootRoute
+    }
     '/bloodcard/donations/detail/$postId': {
       id: '/bloodcard/donations/detail/$postId'
       path: '/bloodcard/donations/detail/$postId'
       fullPath: '/bloodcard/donations/detail/$postId'
       preLoaderRoute: typeof BloodcardDonationsDetailPostIdImport
+      parentRoute: typeof rootRoute
+    }
+    '/bloodcard/request/detail/$postId': {
+      id: '/bloodcard/request/detail/$postId'
+      path: '/bloodcard/request/detail/$postId'
+      fullPath: '/bloodcard/request/detail/$postId'
+      preLoaderRoute: typeof BloodcardRequestDetailPostIdImport
       parentRoute: typeof rootRoute
     }
   }
@@ -210,32 +239,36 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/center': typeof CenterRoute
-  '/chat': typeof ChatRoute
   '/login': typeof LoginRoute
   '/mypage': typeof MypageRoute
   '/donation/create': typeof DonationCreateRoute
   '/donation/match': typeof DonationMatchRoute
   '/bloodcard': typeof BloodcardIndexRoute
+  '/chat': typeof ChatIndexRoute
   '/donation': typeof DonationIndexRoute
   '/bloodcard/donations/create': typeof BloodcardDonationsCreateRoute
   '/bloodcard/request/create': typeof BloodcardRequestCreateRoute
+  '/chat/rooms/$roomId': typeof ChatRoomsRoomIdRoute
   '/bloodcard/donations/detail/$postId': typeof BloodcardDonationsDetailPostIdRoute
+  '/bloodcard/request/detail/$postId': typeof BloodcardRequestDetailPostIdRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/center': typeof CenterRoute
-  '/chat': typeof ChatRoute
   '/login': typeof LoginRoute
   '/mypage': typeof MypageRoute
   '/donation/create': typeof DonationCreateRoute
   '/donation/match': typeof DonationMatchRoute
   '/bloodcard': typeof BloodcardIndexRoute
+  '/chat': typeof ChatIndexRoute
   '/donation': typeof DonationIndexRoute
   '/bloodcard/donations/create': typeof BloodcardDonationsCreateRoute
   '/bloodcard/request/create': typeof BloodcardRequestCreateRoute
+  '/chat/rooms/$roomId': typeof ChatRoomsRoomIdRoute
   '/bloodcard/donations/detail/$postId': typeof BloodcardDonationsDetailPostIdRoute
+  '/bloodcard/request/detail/$postId': typeof BloodcardRequestDetailPostIdRoute
 }
 
 export interface FileRoutesById {
@@ -243,16 +276,18 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/center': typeof CenterRoute
-  '/chat': typeof ChatRoute
   '/login': typeof LoginRoute
   '/mypage': typeof MypageRoute
   '/donation/create': typeof DonationCreateRoute
   '/donation/match': typeof DonationMatchRoute
   '/bloodcard/': typeof BloodcardIndexRoute
+  '/chat/': typeof ChatIndexRoute
   '/donation/': typeof DonationIndexRoute
   '/bloodcard/donations/create': typeof BloodcardDonationsCreateRoute
   '/bloodcard/request/create': typeof BloodcardRequestCreateRoute
+  '/chat/rooms/$roomId': typeof ChatRoomsRoomIdRoute
   '/bloodcard/donations/detail/$postId': typeof BloodcardDonationsDetailPostIdRoute
+  '/bloodcard/request/detail/$postId': typeof BloodcardRequestDetailPostIdRoute
 }
 
 export interface FileRouteTypes {
@@ -261,46 +296,52 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/center'
-    | '/chat'
     | '/login'
     | '/mypage'
     | '/donation/create'
     | '/donation/match'
     | '/bloodcard'
+    | '/chat'
     | '/donation'
     | '/bloodcard/donations/create'
     | '/bloodcard/request/create'
+    | '/chat/rooms/$roomId'
     | '/bloodcard/donations/detail/$postId'
+    | '/bloodcard/request/detail/$postId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
     | '/center'
-    | '/chat'
     | '/login'
     | '/mypage'
     | '/donation/create'
     | '/donation/match'
     | '/bloodcard'
+    | '/chat'
     | '/donation'
     | '/bloodcard/donations/create'
     | '/bloodcard/request/create'
+    | '/chat/rooms/$roomId'
     | '/bloodcard/donations/detail/$postId'
+    | '/bloodcard/request/detail/$postId'
   id:
     | '__root__'
     | '/'
     | '/about'
     | '/center'
-    | '/chat'
     | '/login'
     | '/mypage'
     | '/donation/create'
     | '/donation/match'
     | '/bloodcard/'
+    | '/chat/'
     | '/donation/'
     | '/bloodcard/donations/create'
     | '/bloodcard/request/create'
+    | '/chat/rooms/$roomId'
     | '/bloodcard/donations/detail/$postId'
+    | '/bloodcard/request/detail/$postId'
   fileRoutesById: FileRoutesById
 }
 
@@ -308,32 +349,36 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   CenterRoute: typeof CenterRoute
-  ChatRoute: typeof ChatRoute
   LoginRoute: typeof LoginRoute
   MypageRoute: typeof MypageRoute
   DonationCreateRoute: typeof DonationCreateRoute
   DonationMatchRoute: typeof DonationMatchRoute
   BloodcardIndexRoute: typeof BloodcardIndexRoute
+  ChatIndexRoute: typeof ChatIndexRoute
   DonationIndexRoute: typeof DonationIndexRoute
   BloodcardDonationsCreateRoute: typeof BloodcardDonationsCreateRoute
   BloodcardRequestCreateRoute: typeof BloodcardRequestCreateRoute
+  ChatRoomsRoomIdRoute: typeof ChatRoomsRoomIdRoute
   BloodcardDonationsDetailPostIdRoute: typeof BloodcardDonationsDetailPostIdRoute
+  BloodcardRequestDetailPostIdRoute: typeof BloodcardRequestDetailPostIdRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   CenterRoute: CenterRoute,
-  ChatRoute: ChatRoute,
   LoginRoute: LoginRoute,
   MypageRoute: MypageRoute,
   DonationCreateRoute: DonationCreateRoute,
   DonationMatchRoute: DonationMatchRoute,
   BloodcardIndexRoute: BloodcardIndexRoute,
+  ChatIndexRoute: ChatIndexRoute,
   DonationIndexRoute: DonationIndexRoute,
   BloodcardDonationsCreateRoute: BloodcardDonationsCreateRoute,
   BloodcardRequestCreateRoute: BloodcardRequestCreateRoute,
+  ChatRoomsRoomIdRoute: ChatRoomsRoomIdRoute,
   BloodcardDonationsDetailPostIdRoute: BloodcardDonationsDetailPostIdRoute,
+  BloodcardRequestDetailPostIdRoute: BloodcardRequestDetailPostIdRoute,
 }
 
 export const routeTree = rootRoute
@@ -349,16 +394,18 @@ export const routeTree = rootRoute
         "/",
         "/about",
         "/center",
-        "/chat",
         "/login",
         "/mypage",
         "/donation/create",
         "/donation/match",
         "/bloodcard/",
+        "/chat/",
         "/donation/",
         "/bloodcard/donations/create",
         "/bloodcard/request/create",
-        "/bloodcard/donations/detail/$postId"
+        "/chat/rooms/$roomId",
+        "/bloodcard/donations/detail/$postId",
+        "/bloodcard/request/detail/$postId"
       ]
     },
     "/": {
@@ -369,9 +416,6 @@ export const routeTree = rootRoute
     },
     "/center": {
       "filePath": "center.tsx"
-    },
-    "/chat": {
-      "filePath": "chat.tsx"
     },
     "/login": {
       "filePath": "login.tsx"
@@ -388,6 +432,9 @@ export const routeTree = rootRoute
     "/bloodcard/": {
       "filePath": "bloodcard/index.tsx"
     },
+    "/chat/": {
+      "filePath": "chat/index.tsx"
+    },
     "/donation/": {
       "filePath": "donation/index.tsx"
     },
@@ -397,8 +444,14 @@ export const routeTree = rootRoute
     "/bloodcard/request/create": {
       "filePath": "bloodcard/request/create.tsx"
     },
+    "/chat/rooms/$roomId": {
+      "filePath": "chat/rooms/$roomId.tsx"
+    },
     "/bloodcard/donations/detail/$postId": {
       "filePath": "bloodcard/donations/detail/$postId.tsx"
+    },
+    "/bloodcard/request/detail/$postId": {
+      "filePath": "bloodcard/request/detail/$postId.tsx"
     }
   }
 }
