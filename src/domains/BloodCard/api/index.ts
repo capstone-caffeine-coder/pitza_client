@@ -34,32 +34,20 @@ async function getBloodCardDonates(): Promise<BloodDonerCard[]> {
   return data.bloodCardDonates;
 }
 
-type BloodcardDonateDetail = {
-  bloodcardDonateDetail: BloodcardDonate;
-};
-
 async function getBloodCardDonateDetail(id: string): Promise<BloodcardDonate> {
-  const {
-    data: { bloodcardDonateDetail },
-  } = await apiInstance.get<BloodcardDonateDetail>(
+  const { data } = await apiInstance.get<BloodcardDonate>(
     `/bloodcard/donations/detail/${id}`,
   );
-  return bloodcardDonateDetail;
+  return data;
 }
 
-type BloodcardRequestDetail = {
-  bloodcardRequestDetail: BloodcardRequest;
-};
 async function getBloodCardRequestDetail(
   id: string,
 ): Promise<BloodcardRequest> {
-  const {
-    data: { bloodcardRequestDetail },
-  } = await apiInstance.get<BloodcardRequestDetail>(
+  const { data } = await apiInstance.get<BloodcardRequest>(
     `/bloodcard/requests/detail/${id}`,
   );
-  console.log(bloodcardRequestDetail);
-  return bloodcardRequestDetail;
+  return data;
 }
 
 export {
