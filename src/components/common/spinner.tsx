@@ -1,3 +1,4 @@
+import { assetMap } from "@/src/assets";
 import { cn } from "@/src/utils/cn";
 import { forwardRef, HTMLAttributes } from "react";
 
@@ -33,6 +34,31 @@ const Spinner = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
     );
   },
 );
+Spinner.displayName = "Spinner";
+
+const SpinnerPitza = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
+  ({ className, ...props }, ref) => {
+    return (
+      <div
+        className={cn(
+          "relative mx-auto h-[300px] w-[300px] rounded-full",
+          className,
+        )}
+        ref={ref}
+        {...props}
+      >
+        <div className="animate-orbit absolute left-1/3 top-1/3 w-[100px]">
+          <img
+            src={assetMap.pitza_spinner}
+            className="animate-spin-slow w-full"
+            alt="orbiting pizza"
+          />
+        </div>
+      </div>
+    );
+  },
+);
+SpinnerPitza.displayName = "SpinnerPitza";
 
 function SpinnerModal() {
   return (
@@ -42,4 +68,4 @@ function SpinnerModal() {
   );
 }
 
-export { Spinner, SpinnerModal };
+export { Spinner, SpinnerModal, SpinnerPitza };
