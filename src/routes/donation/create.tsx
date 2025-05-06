@@ -2,65 +2,47 @@ import { Box } from "@/src/components/common/box";
 import { Button } from "@/src/components/common/button";
 import { FormRow } from "@/src/components/common/form";
 import Header from "@/src/components/common/header";
+import { FileInput } from "@/src/components/common/input";
 import Select from "@/src/components/common/select";
-import { createFileRoute } from "@tanstack/react-router";
+import { SpinnerModal } from "@/src/components/common/spinner";
+import { REGIONS } from "@/src/constants/form";
+import { createBloodDonationRequest } from "@/src/domains/BloodDonate/api";
+import { CreateDonation } from "@/src/domains/BloodDonate/types";
+import { BLOOOD_TYPES } from "@/src/types/donationInfo";
+import { useMutation } from "@tanstack/react-query";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
+import { IoMdCamera } from "react-icons/io";
 
 export const Route = createFileRoute("/donation/create")({
   component: RouteComponent,
 });
 
-interface CreateDonationRequest {
-  bloodType:
-    | "Rh+A"
-    | "Rh-A"
-    | "Rh+B"
-    | "Rh-B"
-    | "Rh+O"
-    | "Rh-O"
-    | "Rh+AB"
-    | "Rh-AB";
-  age: number;
-  gender: "MALE" | "FEMALE";
-  location: string;
-  deadline: Date;
-  story: string;
-}
-
-const REGIONS = [
-  "서울특별시",
-  "부산광역시",
-  "대구광역시",
-  "인천광역시",
-  "광주광역시",
-  "대전광역시",
-  "울산광역시",
-  "세종특별자치시",
-  "경기도",
-  "강원특별자치도",
-  "충청북도",
-  "충청남도",
-  "전라북도",
-  "전라남도",
-  "경상북도",
-  "경상남도",
-  "제주특별자치도",
-];
-
 function RouteComponent() {
-  const { register, handleSubmit } = useForm<CreateDonationRequest>({
+  const navigate = useNavigate();
+  const { register, handleSubmit, setValue, watch } = useForm<CreateDonation>({
     defaultValues: {
-      bloodType: "Rh+A",
+      bloodType: "A+",
       age: 0,
       gender: "MALE",
-      location: "",
+      location: "서울특별시",
       deadline: new Date(),
       story: "",
+      image: undefined,
     },
   });
+  const { isPending, mutate: createRequest } = useMutation({
+    mutationFn: createBloodDonationRequest,
+    onSuccess: (data) =>
+      navigate({
+        to: "/donation/request/$requestId",
+        params: { requestId: data.id },
+      }),
+  });
+  const donateImage = watch("image");
 
-  const onSubmit = (data: CreateDonationRequest) => {
-    console.log("🩸 Submitted donation request:", data);
+  const onSubmit = (data: CreateDonation) => {
+    createRequest(data);
   };
 
   return (
@@ -77,21 +59,36 @@ function RouteComponent() {
           onSubmit={handleSubmit(onSubmit)}
           className="mt-6 flex w-full max-w-md flex-col gap-4"
         >
+          <FileInput
+            onChange={(e) => {
+              const file = (e.target as HTMLInputElement).files?.[0];
+              if (file) {
+                setValue("image", file);
+              }
+            }}
+          >
+            {donateImage ? (
+              <img
+                src={URL.createObjectURL(donateImage)}
+                alt="헌혈증 이미지"
+                className="flex h-full w-full rounded-xl object-cover"
+              />
+            ) : (
+              <div className="flex h-full w-full items-center justify-center rounded-xl bg-primary">
+                <div className="flex flex-col items-center justify-center gap-2">
+                  <IoMdCamera size={30} className="text-white" />
+                  <p className="text-white">이미지를 업로드 해주세요</p>
+                </div>
+              </div>
+            )}
+          </FileInput>
           {/* 혈액형 */}
           <FormRow label="혈액형">
             <Select
-              className="w-1/2 rounded-full bg-primary text-center"
-              options={[
-                "Rh+A",
-                "Rh-A",
-                "Rh+B",
-                "Rh-B",
-                "Rh+O",
-                "Rh-O",
-                "Rh+AB",
-                "Rh-AB",
-              ]}
+              className="w-1/2 rounded-full bg-primary text-center text-white"
+              options={[...BLOOOD_TYPES]}
               placeholder="혈액형을 선택하세요"
+              value={watch("bloodType")}
               {...register("bloodType")}
             />
           </FormRow>
@@ -100,7 +97,7 @@ function RouteComponent() {
           <FormRow label="나이">
             <input
               type="number"
-              className="w-1/2 rounded-full bg-primary px-3 py-2"
+              className="w-1/2 rounded-full bg-primary px-3 py-2 text-center text-white"
               max={100}
               min={0}
               {...register("age", { valueAsNumber: true })}
@@ -154,7 +151,7 @@ function RouteComponent() {
           <FormRow label="수혈 필요 날짜">
             <input
               type="date"
-              className="w-1/2 rounded-full border bg-primary px-4 py-2"
+              className="w-1/2 rounded-full border bg-primary px-4 py-2 text-white"
               {...register("deadline", { valueAsDate: true })}
             />
           </FormRow>
@@ -176,6 +173,7 @@ function RouteComponent() {
           </Button>
         </form>
       </div>
+      {isPending && <SpinnerModal />}
     </main>
   );
 }
