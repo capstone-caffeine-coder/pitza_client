@@ -30,9 +30,23 @@ export default {
             transform: "translateY(0)",
           },
         },
+        orbit: {
+          "0%": {
+            transform: "rotate(0deg) translateX(100px) rotate(0deg)",
+          },
+          "100%": {
+            transform: "rotate(360deg) translateX(100px) rotate(-360deg)", // 자기 회전 포함
+          },
+        },
+        spinSlow: {
+          "0%": { transform: "rotate(0deg)" },
+          "100%": { transform: "rotate(360deg)" },
+        },
       },
       animation: {
         "fade-up": "fade-up 0.5s ease-out forwards",
+        orbit: "orbit 1s linear infinite",
+        "spin-slow": "spinSlow 1s linear infinite",
       },
     },
   },
