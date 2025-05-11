@@ -10,11 +10,18 @@ type ChatRoom = {
 };
 
 type Message = {
-  type: "message";
+  message_type: "text";
   chatroom_id: string;
   sender: string;
-  message: string;
+  content: string;
   sent_at: string;
+};
+
+type ImageMessage = {
+  message_type: "image";
+  chatroom_id: string;
+  sender: string;
+  content: string;
 };
 
 export type ChatLogs = {
@@ -22,4 +29,4 @@ export type ChatLogs = {
   messages: Message[];
 };
 
-export type { ChatRoom, Message };
+export type { ChatRoom, Message, ImageMessage };
