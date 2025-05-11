@@ -1,7 +1,7 @@
 import { useChatContext } from "@/src/domains/Chat/hooks/useChatContext";
-import { Message } from "@/src/domains/Chat/types";
+import { ImageMessage, Message } from "@/src/domains/Chat/types";
 
-function ChatLogs({ messages }: { messages: Message[] }) {
+function ChatLogs({ messages }: { messages: (Message | ImageMessage)[] }) {
   const {
     state: { messages: messagesAfterConnection },
   } = useChatContext();
@@ -13,12 +13,29 @@ function ChatLogs({ messages }: { messages: Message[] }) {
           <div
             className={`flex max-w-[80%] rounded-xl bg-white p-2 ${idx % 2 === 0 ? "ml-auto" : "mr-auto"}`}
           >
-            {message.message}
+            <MessageLog message={message} />
           </div>
         </div>
       ))}
     </div>
   );
 }
+
+const MessageLog = ({ message }: { message: Message | ImageMessage }) => {
+  if (message.message_type === "text") {
+    return <TextLog message={message} />;
+  }
+  if (message.message_type === "image") {
+    return <ImageLog message={message} />;
+  }
+};
+
+const TextLog = ({ message }: { message: Message }) => {
+  return <p>{message.content}</p>;
+};
+
+const ImageLog = ({ message }: { message: ImageMessage }) => {
+  return <img src={message.content} alt={"메시지"} />;
+};
 
 export default ChatLogs;
