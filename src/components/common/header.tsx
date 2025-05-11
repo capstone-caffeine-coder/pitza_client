@@ -23,6 +23,7 @@ const Header = forwardRef<
         />
       )}
       <span className="text-bold text-xl">{title}</span>
+      {props.children}
     </header>
   );
 });
