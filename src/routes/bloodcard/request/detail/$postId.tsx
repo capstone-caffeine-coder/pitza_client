@@ -1,3 +1,4 @@
+import { Button } from "@/src/components/common/button";
 import { ErrorComponent } from "@/src/components/common/error";
 import Header from "@/src/components/common/header";
 import { SpinnerModal } from "@/src/components/common/spinner";
@@ -21,7 +22,7 @@ function RouteComponent() {
 
   return (
     <>
-      <Header title="헌혈증 기부 상세" />
+      <Header title="헌혈증 요청 상세" />
       <div className="flex flex-col gap-4 p-4">
         <img
           src={data.image}
@@ -32,10 +33,13 @@ function RouteComponent() {
           <hr />
           <Info field="지역" value={data.donationLocation} />
         </section>
-        <section>
+        <section className="mb-10">
           <h2 className="text-xl">사연</h2>
           <p className="p-2">{data.story}</p>
         </section>
+        <Button type="button" onClick={() => {}}>
+          연락하기
+        </Button>
       </div>
     </>
   );
