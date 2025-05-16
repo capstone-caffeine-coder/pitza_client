@@ -31,7 +31,7 @@ const MessageLog = ({ message }: { message: Message | ImageMessage }) => {
 };
 
 const TextLog = ({ message }: { message: Message }) => {
-  return <p>{message.content}</p>;
+  return <p className="break-all">{message.content}</p>;
 };
 
 const ImageLog = ({ message }: { message: ImageMessage }) => {

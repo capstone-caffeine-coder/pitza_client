@@ -11,4 +11,15 @@ async function getChatLogs(roomId: string): Promise<ChatLogs> {
   return data;
 }
 
-export { getChats, getChatLogs };
+interface ReportUserRequest {
+  chatroom_id: string;
+  reason: string;
+}
+async function reportChatUser(reportData: ReportUserRequest) {
+  const { data } = await apiInstance.post(
+    `/chat/rooms/${reportData.chatroom_id}/reports`,
+  );
+  return data;
+}
+
+export { getChats, getChatLogs, reportChatUser };

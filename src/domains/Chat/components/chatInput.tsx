@@ -40,6 +40,7 @@ function ChatInput() {
         onChange={handleFileChange}
         accept="image/*"
         className="hidden"
+        aria-label="이미지 업로드"
       />
       <Button
         variant={"default"}
