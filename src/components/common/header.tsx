@@ -5,17 +5,17 @@ import { FaChevronLeft } from "react-icons/fa6";
 
 const Header = forwardRef<
   HTMLHeadingElement,
-  React.ComponentProps<"header"> & { title: string }
->(({ title, ...props }, ref) => {
+  React.ComponentProps<"header"> & { title?: string; goBack?: boolean }
+>(({ title, goBack = true, className, ...props }, ref) => {
   const { history } = useRouter();
 
   return (
     <header
-      className={cn("relative p-4 text-center", props.className)}
+      className={cn("relative p-4 text-center", className)}
       {...props}
       ref={ref}
     >
-      {history.canGoBack() && (
+      {history.canGoBack() && goBack && (
         <FaChevronLeft
           className="absolute left-4 top-5 cursor-pointer"
           size={20}
