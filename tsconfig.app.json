@@ -21,7 +21,7 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
-    "types": ["kakao.maps.d.ts"],
+    "types": ["kakao.maps.d.ts", "jest", "@testing-library/jest-dom"],
     "baseUrl": ".",
     "paths": {
       "@/*": ["*"],
