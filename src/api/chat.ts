@@ -16,6 +16,7 @@ const createChatRoom = async (
     "/chat/rooms",
     createChatRoomRequest,
   );
+  console.log(data);
   return data;
 };
 

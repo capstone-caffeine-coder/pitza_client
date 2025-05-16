@@ -10,420 +10,441 @@
 
 // Import Routes
 
-import { Route as rootRoute } from "./routes/__root";
-import { Route as MypageImport } from "./routes/mypage";
-import { Route as LoginImport } from "./routes/login";
-import { Route as CenterImport } from "./routes/center";
-import { Route as AboutImport } from "./routes/about";
-import { Route as IndexImport } from "./routes/index";
-import { Route as DonationIndexImport } from "./routes/donation/index";
-import { Route as ChatIndexImport } from "./routes/chat/index";
-import { Route as BloodcardIndexImport } from "./routes/bloodcard/index";
-import { Route as DonationCreateImport } from "./routes/donation/create";
-import { Route as DonationMatchIndexImport } from "./routes/donation/match/index";
-import { Route as DonationRequestRequestIdImport } from "./routes/donation/request/$requestId";
-import { Route as DonationMatchRequestIdImport } from "./routes/donation/match/$requestId";
-import { Route as DonationDetailsDonationIdImport } from "./routes/donation/details/$donationId";
-import { Route as ChatRoomsRoomIdImport } from "./routes/chat/rooms/$roomId";
-import { Route as BloodcardRequestCreateImport } from "./routes/bloodcard/request/create";
-import { Route as BloodcardDonationsCreateImport } from "./routes/bloodcard/donations/create";
-import { Route as BloodcardRequestDetailPostIdImport } from "./routes/bloodcard/request/detail/$postId";
-import { Route as BloodcardDonationsDetailPostIdImport } from "./routes/bloodcard/donations/detail/$postId";
+import { Route as rootRoute } from './routes/__root'
+import { Route as MypageImport } from './routes/mypage'
+import { Route as LoginImport } from './routes/login'
+import { Route as CenterImport } from './routes/center'
+import { Route as AboutImport } from './routes/about'
+import { Route as IndexImport } from './routes/index'
+import { Route as DonationIndexImport } from './routes/donation/index'
+import { Route as ChatIndexImport } from './routes/chat/index'
+import { Route as BloodcardIndexImport } from './routes/bloodcard/index'
+import { Route as ProfileSetupImport } from './routes/profile/setup'
+import { Route as DonationCreateImport } from './routes/donation/create'
+import { Route as DonationMatchIndexImport } from './routes/donation/match/index'
+import { Route as DonationRequestRequestIdImport } from './routes/donation/request/$requestId'
+import { Route as DonationMatchRequestIdImport } from './routes/donation/match/$requestId'
+import { Route as DonationDetailsDonationIdImport } from './routes/donation/details/$donationId'
+import { Route as ChatRoomsRoomIdImport } from './routes/chat/rooms/$roomId'
+import { Route as BloodcardRequestCreateImport } from './routes/bloodcard/request/create'
+import { Route as BloodcardDonationsCreateImport } from './routes/bloodcard/donations/create'
+import { Route as BloodcardRequestDetailPostIdImport } from './routes/bloodcard/request/detail/$postId'
+import { Route as BloodcardDonationsDetailPostIdImport } from './routes/bloodcard/donations/detail/$postId'
 
 // Create/Update Routes
 
 const MypageRoute = MypageImport.update({
-  id: "/mypage",
-  path: "/mypage",
+  id: '/mypage',
+  path: '/mypage',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const LoginRoute = LoginImport.update({
-  id: "/login",
-  path: "/login",
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const CenterRoute = CenterImport.update({
-  id: "/center",
-  path: "/center",
+  id: '/center',
+  path: '/center',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const AboutRoute = AboutImport.update({
-  id: "/about",
-  path: "/about",
+  id: '/about',
+  path: '/about',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const IndexRoute = IndexImport.update({
-  id: "/",
-  path: "/",
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const DonationIndexRoute = DonationIndexImport.update({
-  id: "/donation/",
-  path: "/donation/",
+  id: '/donation/',
+  path: '/donation/',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const ChatIndexRoute = ChatIndexImport.update({
-  id: "/chat/",
-  path: "/chat/",
+  id: '/chat/',
+  path: '/chat/',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const BloodcardIndexRoute = BloodcardIndexImport.update({
-  id: "/bloodcard/",
-  path: "/bloodcard/",
+  id: '/bloodcard/',
+  path: '/bloodcard/',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
+
+const ProfileSetupRoute = ProfileSetupImport.update({
+  id: '/profile/setup',
+  path: '/profile/setup',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const DonationCreateRoute = DonationCreateImport.update({
-  id: "/donation/create",
-  path: "/donation/create",
+  id: '/donation/create',
+  path: '/donation/create',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const DonationMatchIndexRoute = DonationMatchIndexImport.update({
-  id: "/donation/match/",
-  path: "/donation/match/",
+  id: '/donation/match/',
+  path: '/donation/match/',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const DonationRequestRequestIdRoute = DonationRequestRequestIdImport.update({
-  id: "/donation/request/$requestId",
-  path: "/donation/request/$requestId",
+  id: '/donation/request/$requestId',
+  path: '/donation/request/$requestId',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const DonationMatchRequestIdRoute = DonationMatchRequestIdImport.update({
-  id: "/donation/match/$requestId",
-  path: "/donation/match/$requestId",
+  id: '/donation/match/$requestId',
+  path: '/donation/match/$requestId',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const DonationDetailsDonationIdRoute = DonationDetailsDonationIdImport.update({
-  id: "/donation/details/$donationId",
-  path: "/donation/details/$donationId",
+  id: '/donation/details/$donationId',
+  path: '/donation/details/$donationId',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const ChatRoomsRoomIdRoute = ChatRoomsRoomIdImport.update({
-  id: "/chat/rooms/$roomId",
-  path: "/chat/rooms/$roomId",
+  id: '/chat/rooms/$roomId',
+  path: '/chat/rooms/$roomId',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const BloodcardRequestCreateRoute = BloodcardRequestCreateImport.update({
-  id: "/bloodcard/request/create",
-  path: "/bloodcard/request/create",
+  id: '/bloodcard/request/create',
+  path: '/bloodcard/request/create',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const BloodcardDonationsCreateRoute = BloodcardDonationsCreateImport.update({
-  id: "/bloodcard/donations/create",
-  path: "/bloodcard/donations/create",
+  id: '/bloodcard/donations/create',
+  path: '/bloodcard/donations/create',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const BloodcardRequestDetailPostIdRoute =
   BloodcardRequestDetailPostIdImport.update({
-    id: "/bloodcard/request/detail/$postId",
-    path: "/bloodcard/request/detail/$postId",
+    id: '/bloodcard/request/detail/$postId',
+    path: '/bloodcard/request/detail/$postId',
     getParentRoute: () => rootRoute,
-  } as any);
+  } as any)
 
 const BloodcardDonationsDetailPostIdRoute =
   BloodcardDonationsDetailPostIdImport.update({
-    id: "/bloodcard/donations/detail/$postId",
-    path: "/bloodcard/donations/detail/$postId",
+    id: '/bloodcard/donations/detail/$postId',
+    path: '/bloodcard/donations/detail/$postId',
     getParentRoute: () => rootRoute,
-  } as any);
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
-declare module "@tanstack/react-router" {
+declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    "/": {
-      id: "/";
-      path: "/";
-      fullPath: "/";
-      preLoaderRoute: typeof IndexImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/about": {
-      id: "/about";
-      path: "/about";
-      fullPath: "/about";
-      preLoaderRoute: typeof AboutImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/center": {
-      id: "/center";
-      path: "/center";
-      fullPath: "/center";
-      preLoaderRoute: typeof CenterImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/login": {
-      id: "/login";
-      path: "/login";
-      fullPath: "/login";
-      preLoaderRoute: typeof LoginImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/mypage": {
-      id: "/mypage";
-      path: "/mypage";
-      fullPath: "/mypage";
-      preLoaderRoute: typeof MypageImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/donation/create": {
-      id: "/donation/create";
-      path: "/donation/create";
-      fullPath: "/donation/create";
-      preLoaderRoute: typeof DonationCreateImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/bloodcard/": {
-      id: "/bloodcard/";
-      path: "/bloodcard";
-      fullPath: "/bloodcard";
-      preLoaderRoute: typeof BloodcardIndexImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/chat/": {
-      id: "/chat/";
-      path: "/chat";
-      fullPath: "/chat";
-      preLoaderRoute: typeof ChatIndexImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/donation/": {
-      id: "/donation/";
-      path: "/donation";
-      fullPath: "/donation";
-      preLoaderRoute: typeof DonationIndexImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/bloodcard/donations/create": {
-      id: "/bloodcard/donations/create";
-      path: "/bloodcard/donations/create";
-      fullPath: "/bloodcard/donations/create";
-      preLoaderRoute: typeof BloodcardDonationsCreateImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/bloodcard/request/create": {
-      id: "/bloodcard/request/create";
-      path: "/bloodcard/request/create";
-      fullPath: "/bloodcard/request/create";
-      preLoaderRoute: typeof BloodcardRequestCreateImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/chat/rooms/$roomId": {
-      id: "/chat/rooms/$roomId";
-      path: "/chat/rooms/$roomId";
-      fullPath: "/chat/rooms/$roomId";
-      preLoaderRoute: typeof ChatRoomsRoomIdImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/donation/details/$donationId": {
-      id: "/donation/details/$donationId";
-      path: "/donation/details/$donationId";
-      fullPath: "/donation/details/$donationId";
-      preLoaderRoute: typeof DonationDetailsDonationIdImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/donation/match/$requestId": {
-      id: "/donation/match/$requestId";
-      path: "/donation/match/$requestId";
-      fullPath: "/donation/match/$requestId";
-      preLoaderRoute: typeof DonationMatchRequestIdImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/donation/request/$requestId": {
-      id: "/donation/request/$requestId";
-      path: "/donation/request/$requestId";
-      fullPath: "/donation/request/$requestId";
-      preLoaderRoute: typeof DonationRequestRequestIdImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/donation/match/": {
-      id: "/donation/match/";
-      path: "/donation/match";
-      fullPath: "/donation/match";
-      preLoaderRoute: typeof DonationMatchIndexImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/bloodcard/donations/detail/$postId": {
-      id: "/bloodcard/donations/detail/$postId";
-      path: "/bloodcard/donations/detail/$postId";
-      fullPath: "/bloodcard/donations/detail/$postId";
-      preLoaderRoute: typeof BloodcardDonationsDetailPostIdImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/bloodcard/request/detail/$postId": {
-      id: "/bloodcard/request/detail/$postId";
-      path: "/bloodcard/request/detail/$postId";
-      fullPath: "/bloodcard/request/detail/$postId";
-      preLoaderRoute: typeof BloodcardRequestDetailPostIdImport;
-      parentRoute: typeof rootRoute;
-    };
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutImport
+      parentRoute: typeof rootRoute
+    }
+    '/center': {
+      id: '/center'
+      path: '/center'
+      fullPath: '/center'
+      preLoaderRoute: typeof CenterImport
+      parentRoute: typeof rootRoute
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginImport
+      parentRoute: typeof rootRoute
+    }
+    '/mypage': {
+      id: '/mypage'
+      path: '/mypage'
+      fullPath: '/mypage'
+      preLoaderRoute: typeof MypageImport
+      parentRoute: typeof rootRoute
+    }
+    '/donation/create': {
+      id: '/donation/create'
+      path: '/donation/create'
+      fullPath: '/donation/create'
+      preLoaderRoute: typeof DonationCreateImport
+      parentRoute: typeof rootRoute
+    }
+    '/profile/setup': {
+      id: '/profile/setup'
+      path: '/profile/setup'
+      fullPath: '/profile/setup'
+      preLoaderRoute: typeof ProfileSetupImport
+      parentRoute: typeof rootRoute
+    }
+    '/bloodcard/': {
+      id: '/bloodcard/'
+      path: '/bloodcard'
+      fullPath: '/bloodcard'
+      preLoaderRoute: typeof BloodcardIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/chat/': {
+      id: '/chat/'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof ChatIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/donation/': {
+      id: '/donation/'
+      path: '/donation'
+      fullPath: '/donation'
+      preLoaderRoute: typeof DonationIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/bloodcard/donations/create': {
+      id: '/bloodcard/donations/create'
+      path: '/bloodcard/donations/create'
+      fullPath: '/bloodcard/donations/create'
+      preLoaderRoute: typeof BloodcardDonationsCreateImport
+      parentRoute: typeof rootRoute
+    }
+    '/bloodcard/request/create': {
+      id: '/bloodcard/request/create'
+      path: '/bloodcard/request/create'
+      fullPath: '/bloodcard/request/create'
+      preLoaderRoute: typeof BloodcardRequestCreateImport
+      parentRoute: typeof rootRoute
+    }
+    '/chat/rooms/$roomId': {
+      id: '/chat/rooms/$roomId'
+      path: '/chat/rooms/$roomId'
+      fullPath: '/chat/rooms/$roomId'
+      preLoaderRoute: typeof ChatRoomsRoomIdImport
+      parentRoute: typeof rootRoute
+    }
+    '/donation/details/$donationId': {
+      id: '/donation/details/$donationId'
+      path: '/donation/details/$donationId'
+      fullPath: '/donation/details/$donationId'
+      preLoaderRoute: typeof DonationDetailsDonationIdImport
+      parentRoute: typeof rootRoute
+    }
+    '/donation/match/$requestId': {
+      id: '/donation/match/$requestId'
+      path: '/donation/match/$requestId'
+      fullPath: '/donation/match/$requestId'
+      preLoaderRoute: typeof DonationMatchRequestIdImport
+      parentRoute: typeof rootRoute
+    }
+    '/donation/request/$requestId': {
+      id: '/donation/request/$requestId'
+      path: '/donation/request/$requestId'
+      fullPath: '/donation/request/$requestId'
+      preLoaderRoute: typeof DonationRequestRequestIdImport
+      parentRoute: typeof rootRoute
+    }
+    '/donation/match/': {
+      id: '/donation/match/'
+      path: '/donation/match'
+      fullPath: '/donation/match'
+      preLoaderRoute: typeof DonationMatchIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/bloodcard/donations/detail/$postId': {
+      id: '/bloodcard/donations/detail/$postId'
+      path: '/bloodcard/donations/detail/$postId'
+      fullPath: '/bloodcard/donations/detail/$postId'
+      preLoaderRoute: typeof BloodcardDonationsDetailPostIdImport
+      parentRoute: typeof rootRoute
+    }
+    '/bloodcard/request/detail/$postId': {
+      id: '/bloodcard/request/detail/$postId'
+      path: '/bloodcard/request/detail/$postId'
+      fullPath: '/bloodcard/request/detail/$postId'
+      preLoaderRoute: typeof BloodcardRequestDetailPostIdImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
 // Create and export the route tree
 
 export interface FileRoutesByFullPath {
-  "/": typeof IndexRoute;
-  "/about": typeof AboutRoute;
-  "/center": typeof CenterRoute;
-  "/login": typeof LoginRoute;
-  "/mypage": typeof MypageRoute;
-  "/donation/create": typeof DonationCreateRoute;
-  "/bloodcard": typeof BloodcardIndexRoute;
-  "/chat": typeof ChatIndexRoute;
-  "/donation": typeof DonationIndexRoute;
-  "/bloodcard/donations/create": typeof BloodcardDonationsCreateRoute;
-  "/bloodcard/request/create": typeof BloodcardRequestCreateRoute;
-  "/chat/rooms/$roomId": typeof ChatRoomsRoomIdRoute;
-  "/donation/details/$donationId": typeof DonationDetailsDonationIdRoute;
-  "/donation/match/$requestId": typeof DonationMatchRequestIdRoute;
-  "/donation/request/$requestId": typeof DonationRequestRequestIdRoute;
-  "/donation/match": typeof DonationMatchIndexRoute;
-  "/bloodcard/donations/detail/$postId": typeof BloodcardDonationsDetailPostIdRoute;
-  "/bloodcard/request/detail/$postId": typeof BloodcardRequestDetailPostIdRoute;
+  '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/center': typeof CenterRoute
+  '/login': typeof LoginRoute
+  '/mypage': typeof MypageRoute
+  '/donation/create': typeof DonationCreateRoute
+  '/profile/setup': typeof ProfileSetupRoute
+  '/bloodcard': typeof BloodcardIndexRoute
+  '/chat': typeof ChatIndexRoute
+  '/donation': typeof DonationIndexRoute
+  '/bloodcard/donations/create': typeof BloodcardDonationsCreateRoute
+  '/bloodcard/request/create': typeof BloodcardRequestCreateRoute
+  '/chat/rooms/$roomId': typeof ChatRoomsRoomIdRoute
+  '/donation/details/$donationId': typeof DonationDetailsDonationIdRoute
+  '/donation/match/$requestId': typeof DonationMatchRequestIdRoute
+  '/donation/request/$requestId': typeof DonationRequestRequestIdRoute
+  '/donation/match': typeof DonationMatchIndexRoute
+  '/bloodcard/donations/detail/$postId': typeof BloodcardDonationsDetailPostIdRoute
+  '/bloodcard/request/detail/$postId': typeof BloodcardRequestDetailPostIdRoute
 }
 
 export interface FileRoutesByTo {
-  "/": typeof IndexRoute;
-  "/about": typeof AboutRoute;
-  "/center": typeof CenterRoute;
-  "/login": typeof LoginRoute;
-  "/mypage": typeof MypageRoute;
-  "/donation/create": typeof DonationCreateRoute;
-  "/bloodcard": typeof BloodcardIndexRoute;
-  "/chat": typeof ChatIndexRoute;
-  "/donation": typeof DonationIndexRoute;
-  "/bloodcard/donations/create": typeof BloodcardDonationsCreateRoute;
-  "/bloodcard/request/create": typeof BloodcardRequestCreateRoute;
-  "/chat/rooms/$roomId": typeof ChatRoomsRoomIdRoute;
-  "/donation/details/$donationId": typeof DonationDetailsDonationIdRoute;
-  "/donation/match/$requestId": typeof DonationMatchRequestIdRoute;
-  "/donation/request/$requestId": typeof DonationRequestRequestIdRoute;
-  "/donation/match": typeof DonationMatchIndexRoute;
-  "/bloodcard/donations/detail/$postId": typeof BloodcardDonationsDetailPostIdRoute;
-  "/bloodcard/request/detail/$postId": typeof BloodcardRequestDetailPostIdRoute;
+  '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/center': typeof CenterRoute
+  '/login': typeof LoginRoute
+  '/mypage': typeof MypageRoute
+  '/donation/create': typeof DonationCreateRoute
+  '/profile/setup': typeof ProfileSetupRoute
+  '/bloodcard': typeof BloodcardIndexRoute
+  '/chat': typeof ChatIndexRoute
+  '/donation': typeof DonationIndexRoute
+  '/bloodcard/donations/create': typeof BloodcardDonationsCreateRoute
+  '/bloodcard/request/create': typeof BloodcardRequestCreateRoute
+  '/chat/rooms/$roomId': typeof ChatRoomsRoomIdRoute
+  '/donation/details/$donationId': typeof DonationDetailsDonationIdRoute
+  '/donation/match/$requestId': typeof DonationMatchRequestIdRoute
+  '/donation/request/$requestId': typeof DonationRequestRequestIdRoute
+  '/donation/match': typeof DonationMatchIndexRoute
+  '/bloodcard/donations/detail/$postId': typeof BloodcardDonationsDetailPostIdRoute
+  '/bloodcard/request/detail/$postId': typeof BloodcardRequestDetailPostIdRoute
 }
 
 export interface FileRoutesById {
-  __root__: typeof rootRoute;
-  "/": typeof IndexRoute;
-  "/about": typeof AboutRoute;
-  "/center": typeof CenterRoute;
-  "/login": typeof LoginRoute;
-  "/mypage": typeof MypageRoute;
-  "/donation/create": typeof DonationCreateRoute;
-  "/bloodcard/": typeof BloodcardIndexRoute;
-  "/chat/": typeof ChatIndexRoute;
-  "/donation/": typeof DonationIndexRoute;
-  "/bloodcard/donations/create": typeof BloodcardDonationsCreateRoute;
-  "/bloodcard/request/create": typeof BloodcardRequestCreateRoute;
-  "/chat/rooms/$roomId": typeof ChatRoomsRoomIdRoute;
-  "/donation/details/$donationId": typeof DonationDetailsDonationIdRoute;
-  "/donation/match/$requestId": typeof DonationMatchRequestIdRoute;
-  "/donation/request/$requestId": typeof DonationRequestRequestIdRoute;
-  "/donation/match/": typeof DonationMatchIndexRoute;
-  "/bloodcard/donations/detail/$postId": typeof BloodcardDonationsDetailPostIdRoute;
-  "/bloodcard/request/detail/$postId": typeof BloodcardRequestDetailPostIdRoute;
+  __root__: typeof rootRoute
+  '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/center': typeof CenterRoute
+  '/login': typeof LoginRoute
+  '/mypage': typeof MypageRoute
+  '/donation/create': typeof DonationCreateRoute
+  '/profile/setup': typeof ProfileSetupRoute
+  '/bloodcard/': typeof BloodcardIndexRoute
+  '/chat/': typeof ChatIndexRoute
+  '/donation/': typeof DonationIndexRoute
+  '/bloodcard/donations/create': typeof BloodcardDonationsCreateRoute
+  '/bloodcard/request/create': typeof BloodcardRequestCreateRoute
+  '/chat/rooms/$roomId': typeof ChatRoomsRoomIdRoute
+  '/donation/details/$donationId': typeof DonationDetailsDonationIdRoute
+  '/donation/match/$requestId': typeof DonationMatchRequestIdRoute
+  '/donation/request/$requestId': typeof DonationRequestRequestIdRoute
+  '/donation/match/': typeof DonationMatchIndexRoute
+  '/bloodcard/donations/detail/$postId': typeof BloodcardDonationsDetailPostIdRoute
+  '/bloodcard/request/detail/$postId': typeof BloodcardRequestDetailPostIdRoute
 }
 
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath;
+  fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | "/"
-    | "/about"
-    | "/center"
-    | "/login"
-    | "/mypage"
-    | "/donation/create"
-    | "/bloodcard"
-    | "/chat"
-    | "/donation"
-    | "/bloodcard/donations/create"
-    | "/bloodcard/request/create"
-    | "/chat/rooms/$roomId"
-    | "/donation/details/$donationId"
-    | "/donation/match/$requestId"
-    | "/donation/request/$requestId"
-    | "/donation/match"
-    | "/bloodcard/donations/detail/$postId"
-    | "/bloodcard/request/detail/$postId";
-  fileRoutesByTo: FileRoutesByTo;
+    | '/'
+    | '/about'
+    | '/center'
+    | '/login'
+    | '/mypage'
+    | '/donation/create'
+    | '/profile/setup'
+    | '/bloodcard'
+    | '/chat'
+    | '/donation'
+    | '/bloodcard/donations/create'
+    | '/bloodcard/request/create'
+    | '/chat/rooms/$roomId'
+    | '/donation/details/$donationId'
+    | '/donation/match/$requestId'
+    | '/donation/request/$requestId'
+    | '/donation/match'
+    | '/bloodcard/donations/detail/$postId'
+    | '/bloodcard/request/detail/$postId'
+  fileRoutesByTo: FileRoutesByTo
   to:
-    | "/"
-    | "/about"
-    | "/center"
-    | "/login"
-    | "/mypage"
-    | "/donation/create"
-    | "/bloodcard"
-    | "/chat"
-    | "/donation"
-    | "/bloodcard/donations/create"
-    | "/bloodcard/request/create"
-    | "/chat/rooms/$roomId"
-    | "/donation/details/$donationId"
-    | "/donation/match/$requestId"
-    | "/donation/request/$requestId"
-    | "/donation/match"
-    | "/bloodcard/donations/detail/$postId"
-    | "/bloodcard/request/detail/$postId";
+    | '/'
+    | '/about'
+    | '/center'
+    | '/login'
+    | '/mypage'
+    | '/donation/create'
+    | '/profile/setup'
+    | '/bloodcard'
+    | '/chat'
+    | '/donation'
+    | '/bloodcard/donations/create'
+    | '/bloodcard/request/create'
+    | '/chat/rooms/$roomId'
+    | '/donation/details/$donationId'
+    | '/donation/match/$requestId'
+    | '/donation/request/$requestId'
+    | '/donation/match'
+    | '/bloodcard/donations/detail/$postId'
+    | '/bloodcard/request/detail/$postId'
   id:
-    | "__root__"
-    | "/"
-    | "/about"
-    | "/center"
-    | "/login"
-    | "/mypage"
-    | "/donation/create"
-    | "/bloodcard/"
-    | "/chat/"
-    | "/donation/"
-    | "/bloodcard/donations/create"
-    | "/bloodcard/request/create"
-    | "/chat/rooms/$roomId"
-    | "/donation/details/$donationId"
-    | "/donation/match/$requestId"
-    | "/donation/request/$requestId"
-    | "/donation/match/"
-    | "/bloodcard/donations/detail/$postId"
-    | "/bloodcard/request/detail/$postId";
-  fileRoutesById: FileRoutesById;
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/center'
+    | '/login'
+    | '/mypage'
+    | '/donation/create'
+    | '/profile/setup'
+    | '/bloodcard/'
+    | '/chat/'
+    | '/donation/'
+    | '/bloodcard/donations/create'
+    | '/bloodcard/request/create'
+    | '/chat/rooms/$roomId'
+    | '/donation/details/$donationId'
+    | '/donation/match/$requestId'
+    | '/donation/request/$requestId'
+    | '/donation/match/'
+    | '/bloodcard/donations/detail/$postId'
+    | '/bloodcard/request/detail/$postId'
+  fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute;
-  AboutRoute: typeof AboutRoute;
-  CenterRoute: typeof CenterRoute;
-  LoginRoute: typeof LoginRoute;
-  MypageRoute: typeof MypageRoute;
-  DonationCreateRoute: typeof DonationCreateRoute;
-  BloodcardIndexRoute: typeof BloodcardIndexRoute;
-  ChatIndexRoute: typeof ChatIndexRoute;
-  DonationIndexRoute: typeof DonationIndexRoute;
-  BloodcardDonationsCreateRoute: typeof BloodcardDonationsCreateRoute;
-  BloodcardRequestCreateRoute: typeof BloodcardRequestCreateRoute;
-  ChatRoomsRoomIdRoute: typeof ChatRoomsRoomIdRoute;
-  DonationDetailsDonationIdRoute: typeof DonationDetailsDonationIdRoute;
-  DonationMatchRequestIdRoute: typeof DonationMatchRequestIdRoute;
-  DonationRequestRequestIdRoute: typeof DonationRequestRequestIdRoute;
-  DonationMatchIndexRoute: typeof DonationMatchIndexRoute;
-  BloodcardDonationsDetailPostIdRoute: typeof BloodcardDonationsDetailPostIdRoute;
-  BloodcardRequestDetailPostIdRoute: typeof BloodcardRequestDetailPostIdRoute;
+  IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  CenterRoute: typeof CenterRoute
+  LoginRoute: typeof LoginRoute
+  MypageRoute: typeof MypageRoute
+  DonationCreateRoute: typeof DonationCreateRoute
+  ProfileSetupRoute: typeof ProfileSetupRoute
+  BloodcardIndexRoute: typeof BloodcardIndexRoute
+  ChatIndexRoute: typeof ChatIndexRoute
+  DonationIndexRoute: typeof DonationIndexRoute
+  BloodcardDonationsCreateRoute: typeof BloodcardDonationsCreateRoute
+  BloodcardRequestCreateRoute: typeof BloodcardRequestCreateRoute
+  ChatRoomsRoomIdRoute: typeof ChatRoomsRoomIdRoute
+  DonationDetailsDonationIdRoute: typeof DonationDetailsDonationIdRoute
+  DonationMatchRequestIdRoute: typeof DonationMatchRequestIdRoute
+  DonationRequestRequestIdRoute: typeof DonationRequestRequestIdRoute
+  DonationMatchIndexRoute: typeof DonationMatchIndexRoute
+  BloodcardDonationsDetailPostIdRoute: typeof BloodcardDonationsDetailPostIdRoute
+  BloodcardRequestDetailPostIdRoute: typeof BloodcardRequestDetailPostIdRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -433,6 +454,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   MypageRoute: MypageRoute,
   DonationCreateRoute: DonationCreateRoute,
+  ProfileSetupRoute: ProfileSetupRoute,
   BloodcardIndexRoute: BloodcardIndexRoute,
   ChatIndexRoute: ChatIndexRoute,
   DonationIndexRoute: DonationIndexRoute,
@@ -445,11 +467,11 @@ const rootRouteChildren: RootRouteChildren = {
   DonationMatchIndexRoute: DonationMatchIndexRoute,
   BloodcardDonationsDetailPostIdRoute: BloodcardDonationsDetailPostIdRoute,
   BloodcardRequestDetailPostIdRoute: BloodcardRequestDetailPostIdRoute,
-};
+}
 
 export const routeTree = rootRoute
   ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>();
+  ._addFileTypes<FileRouteTypes>()
 
 /* ROUTE_MANIFEST_START
 {
@@ -463,6 +485,7 @@ export const routeTree = rootRoute
         "/login",
         "/mypage",
         "/donation/create",
+        "/profile/setup",
         "/bloodcard/",
         "/chat/",
         "/donation/",
@@ -494,6 +517,9 @@ export const routeTree = rootRoute
     },
     "/donation/create": {
       "filePath": "donation/create.tsx"
+    },
+    "/profile/setup": {
+      "filePath": "profile/setup.tsx"
     },
     "/bloodcard/": {
       "filePath": "bloodcard/index.tsx"

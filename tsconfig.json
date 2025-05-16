@@ -5,8 +5,9 @@
     { "path": "./tsconfig.node.json" }
   ],
   "compilerOptions": {
+    "jsx": "react-jsx",
     "baseUrl": ".",
-    "types": ["kakao.maps.d.ts"],
+    "types": ["kakao.maps.d.ts", "jest", "@testing-library/jest-dom"],
     "paths": {
       "@/*": ["*"],
       "@assets/*": ["assets/*"],
