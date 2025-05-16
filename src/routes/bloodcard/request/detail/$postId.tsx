@@ -1,10 +1,17 @@
+import { createChatRoom } from "@/src/api/chat";
 import { Button } from "@/src/components/common/button";
 import { ErrorComponent } from "@/src/components/common/error";
 import Header from "@/src/components/common/header";
 import { SpinnerModal } from "@/src/components/common/spinner";
 import { getBloodCardRequestDetail } from "@/src/domains/BloodCard/api";
 import { Info } from "@/src/domains/BloodCard/components/info";
-import { createFileRoute, getRouteApi, redirect } from "@tanstack/react-router";
+import { useMutation } from "@tanstack/react-query";
+import {
+  createFileRoute,
+  getRouteApi,
+  redirect,
+  useRouter,
+} from "@tanstack/react-router";
 
 export const Route = createFileRoute("/bloodcard/request/detail/$postId")({
   loader: async ({ params: { postId } }) => getBloodCardRequestDetail(postId),
@@ -19,6 +26,17 @@ export const Route = createFileRoute("/bloodcard/request/detail/$postId")({
 function RouteComponent() {
   const routeApi = getRouteApi("/bloodcard/request/detail/$postId");
   const data = routeApi.useLoaderData();
+  const { navigate } = useRouter();
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: createChatRoom,
+    onSuccess: (data) => {
+      navigate({
+        to: "/chat/rooms/$roomId",
+        params: { roomId: data.chatroom_id },
+      });
+    },
+  });
 
   return (
     <>
@@ -37,10 +55,14 @@ function RouteComponent() {
           <h2 className="text-xl">사연</h2>
           <p className="p-2">{data.story}</p>
         </section>
-        <Button type="button" onClick={() => {}}>
+        <Button
+          type="button"
+          onClick={() => mutate({ post_id: data.id, receiver_id: "qwrqwr" })}
+        >
           연락하기
         </Button>
       </div>
+      {isPending && <SpinnerModal />}
     </>
   );
 }
