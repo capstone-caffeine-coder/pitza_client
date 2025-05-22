@@ -34,5 +34,37 @@ export default function BloodHoldStatus() {
 }
 
 export function BloodHoldStatusSkeleton() {
-  return <div className="h-auto w-full bg-slate-300 shadow-lg"></div>;
+  return (
+    <div className="flex w-full flex-col gap-4 p-4">
+      {/* 헤더 스켈레톤 */}
+      <div className="flex items-center justify-between">
+        <div className="h-6 w-32 animate-pulse rounded-md bg-gray-200" />
+        <div className="h-6 w-20 animate-pulse rounded-md bg-gray-200" />
+      </div>
+
+      {/* 혈액형별 상태 스켈레톤 */}
+      <div className="grid grid-cols-1 gap-4">
+        {[1, 2, 3, 4].map((index) => (
+          <div
+            key={index}
+            className="flex flex-col gap-2 rounded-lg border p-4"
+          >
+            {/* 혈액형 라벨 스켈레톤 */}
+            <div className="h-5 w-16 animate-pulse rounded-md bg-gray-200" />
+
+            {/* 상태 정보 스켈레톤 */}
+            <div className="flex flex-col gap-1">
+              <div className="h-4 w-24 animate-pulse rounded-md bg-gray-200" />
+              <div className="h-4 w-32 animate-pulse rounded-md bg-gray-200" />
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* 업데이트 시간 스켈레톤 */}
+      <div className="flex justify-end">
+        <div className="h-4 w-40 animate-pulse rounded-md bg-gray-200" />
+      </div>
+    </div>
+  );
 }
