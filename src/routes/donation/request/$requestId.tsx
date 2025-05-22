@@ -30,7 +30,7 @@ function RouteComponent() {
         </div>
         <img
           src={data.image}
-          className="h-[300px] w-full rounded-xl object-cover shadow-xl"
+          className="h-[400px] w-full rounded-xl object-contain shadow-xl"
         />
         <section>
           <p className="py-2 text-lg">{data.nickname}</p>
