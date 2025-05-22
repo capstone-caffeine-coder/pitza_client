@@ -26,6 +26,7 @@ interface BloodDonationMatchDetail {
   story: string;
   image: string;
   createdAt: string;
+  donationId: string;
 }
 const getBloodDonationDetail = async (
   donationId: string,
