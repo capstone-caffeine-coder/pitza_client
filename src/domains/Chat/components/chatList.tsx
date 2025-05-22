@@ -1,5 +1,4 @@
 import { ErrorComponent } from "@/src/components/common/error";
-import { Spinner } from "@/src/components/common/spinner";
 import { getChats } from "@/src/domains/Chat/api";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
@@ -10,7 +9,7 @@ const ChatList = () => {
     queryFn: getChats,
   });
 
-  if (isPending) return <Spinner />;
+  if (isPending) return <ChatListSkeleton />;
   if (error) return <ErrorComponent />;
   return (
     <div className="flex w-full flex-col items-center">
@@ -33,6 +32,28 @@ const ChatList = () => {
               </div>
             </li>
           </Link>
+        ))}
+      </ul>
+    </div>
+  );
+};
+const ChatListSkeleton = () => {
+  return (
+    <div className="flex w-full flex-col items-center">
+      <ul className="w-full">
+        {[1, 2, 3, 4, 5].map((index) => (
+          <li key={index} className="flex gap-4 border-b p-4">
+            {/* 프로필 이미지 스켈레톤 */}
+            <div className="h-14 w-14 animate-pulse rounded-xl bg-gray-200" />
+
+            <div className="flex flex-1 flex-col gap-2">
+              {/* 이름 스켈레톤 */}
+              <div className="h-6 w-24 animate-pulse rounded-md bg-gray-200" />
+
+              {/* 마지막 메시지 스켈레톤 */}
+              <div className="h-4 w-48 animate-pulse rounded-md bg-gray-200" />
+            </div>
+          </li>
         ))}
       </ul>
     </div>
