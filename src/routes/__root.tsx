@@ -2,17 +2,19 @@ import {
   createRootRouteWithContext,
   Link,
   Outlet,
+  useNavigate,
   ValidateToPath,
 } from "@tanstack/react-router";
-import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { AiOutlineHome } from "react-icons/ai";
 import { MdOutlineBloodtype } from "react-icons/md";
 import { BiDonateBlood } from "react-icons/bi";
 import { BsChatLeftDots } from "react-icons/bs";
 import { FaMapLocationDot } from "react-icons/fa6";
-import { AuthState } from "@/src/store/authStore";
+import { AuthState, useAuthStore } from "@/src/store/authStore";
 import { initializeApp } from "firebase/app";
 import { NotFoundComponent } from "@/src/components/common/error";
+
+import { useEffect } from "react";
 
 const navRoutes: {
   to: ValidateToPath;
@@ -61,8 +63,22 @@ const firebaseConfig = {
 initializeApp(firebaseConfig);
 
 const RootRoute = () => {
+  const navigate = useNavigate();
+  const loginStatus = useAuthStore((state) => state.status);
+  const isProfileComplete = useAuthStore((state) => state.is_profile_complete);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      await useAuthStore.getState().fetchUser();
+      if (loginStatus === "LOGGED_IN" && !isProfileComplete) {
+        navigate({ to: "/profile/setup" });
+      }
+    };
+    fetchUser();
+  }, [loginStatus, isProfileComplete, navigate]);
+
   return (
-    <main className="relative mx-auto h-screen max-h-screen max-w-screen-sm overflow-y-auto pb-20">
+    <main className="relative mx-auto h-screen max-h-screen max-w-screen-sm overflow-y-hidden pb-20">
       <div className="absolute bottom-0 flex h-20 w-full bg-primary">
         {navRoutes.map((route) => (
           <Link
@@ -75,10 +91,10 @@ const RootRoute = () => {
           </Link>
         ))}
       </div>
-      <div className="h-full overflow-y-auto">
+      <div className="scrollbar h-full overflow-y-auto">
         <Outlet />
       </div>
-      <TanStackRouterDevtools />
+      {/* <TanStackRouterDevtools /> */}
     </main>
   );
 };
