@@ -12,6 +12,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   createFileRoute,
   useLocation,
+  useNavigate,
   useParams,
   useRouter,
 } from "@tanstack/react-router";
@@ -28,6 +29,7 @@ function RouteComponent() {
     queryFn: () => getBloodDonationDetail(requestId),
   });
   const location = useLocation();
+  const navigate = useNavigate();
   const router = useRouter();
   const { mutate: rematch, isPending: rematchPending } = useMutation({
     mutationFn: bloodDontationMatch,
@@ -41,8 +43,21 @@ function RouteComponent() {
       }
     },
   });
+  const delay = (): Promise<boolean> => {
+    setTimeout(() => {
+      return new Promise((res) => {
+        res(true);
+      });
+    });
+  };
+  const { isPending: pending, mutate: gotoMatched } = useMutation({
+    mutationFn: delay,
+    onSuccess: () => {
+      navigate({ to: "/donation/matched/$requestId", params: { requestId } });
+    },
+  });
 
-  if (rematchPending) return <MatchPending />;
+  if (rematchPending || pending) return <MatchPending />;
   if (isPending) return <SpinnerModal />;
   if (isError) return <ErrorComponent />;
   return (
@@ -75,7 +90,9 @@ function RouteComponent() {
         >
           재매칭
         </Button>
-        <Button className="flex-1 py-6">매칭하기</Button>
+        <Button className="flex-1 py-6" onClick={() => gotoMatched()}>
+          매칭하기
+        </Button>
       </div>
     </div>
   );
