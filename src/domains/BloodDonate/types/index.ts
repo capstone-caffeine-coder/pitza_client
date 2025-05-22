@@ -16,6 +16,7 @@ interface CreateDonation {
   deadline: Date;
   story: string;
   image?: File;
+  doncationId: string;
 }
 
 export type { MatchRequest, CreateDonation };
