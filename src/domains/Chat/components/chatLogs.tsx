@@ -8,10 +8,10 @@ function ChatLogs({ messages }: { messages: (Message | ImageMessage)[] }) {
   const chatLogs = messages.concat(messagesAfterConnection);
   return (
     <div className="flex h-full flex-col gap-4 overflow-y-auto bg-background p-4 pb-20 pt-24">
-      {chatLogs.map((message, idx) => (
+      {chatLogs.map((message) => (
         <div className="flex w-full">
           <div
-            className={`flex max-w-[80%] rounded-xl bg-white p-2 ${idx % 2 === 0 ? "ml-auto" : "mr-auto"}`}
+            className={`flex max-w-[80%] rounded-xl bg-white p-2 ${message.sender.includes("doner") ? "ml-auto" : "mr-auto"}`}
           >
             <MessageLog message={message} />
           </div>
