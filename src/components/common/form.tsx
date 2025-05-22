@@ -14,4 +14,9 @@ const FormRow = ({
 };
 FormRow.displayName = "FormRow";
 
-export { FormRow };
+const FormError = ({ error }: { error: string }) => {
+  return <p className="mt-2 pl-2 text-sm text-red-500">{error}</p>;
+};
+FormError.displayName = "FormError";
+
+export { FormRow, FormError };
