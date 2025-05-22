@@ -23,6 +23,7 @@ import { Route as ProfileSetupImport } from './routes/profile/setup'
 import { Route as DonationCreateImport } from './routes/donation/create'
 import { Route as DonationMatchIndexImport } from './routes/donation/match/index'
 import { Route as DonationRequestRequestIdImport } from './routes/donation/request/$requestId'
+import { Route as DonationMatchedRequestIdImport } from './routes/donation/matched/$requestId'
 import { Route as DonationMatchRequestIdImport } from './routes/donation/match/$requestId'
 import { Route as DonationDetailsDonationIdImport } from './routes/donation/details/$donationId'
 import { Route as ChatRoomsRoomIdImport } from './routes/chat/rooms/$roomId'
@@ -102,6 +103,12 @@ const DonationMatchIndexRoute = DonationMatchIndexImport.update({
 const DonationRequestRequestIdRoute = DonationRequestRequestIdImport.update({
   id: '/donation/request/$requestId',
   path: '/donation/request/$requestId',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const DonationMatchedRequestIdRoute = DonationMatchedRequestIdImport.update({
+  id: '/donation/matched/$requestId',
+  path: '/donation/matched/$requestId',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -258,6 +265,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DonationMatchRequestIdImport
       parentRoute: typeof rootRoute
     }
+    '/donation/matched/$requestId': {
+      id: '/donation/matched/$requestId'
+      path: '/donation/matched/$requestId'
+      fullPath: '/donation/matched/$requestId'
+      preLoaderRoute: typeof DonationMatchedRequestIdImport
+      parentRoute: typeof rootRoute
+    }
     '/donation/request/$requestId': {
       id: '/donation/request/$requestId'
       path: '/donation/request/$requestId'
@@ -307,6 +321,7 @@ export interface FileRoutesByFullPath {
   '/chat/rooms/$roomId': typeof ChatRoomsRoomIdRoute
   '/donation/details/$donationId': typeof DonationDetailsDonationIdRoute
   '/donation/match/$requestId': typeof DonationMatchRequestIdRoute
+  '/donation/matched/$requestId': typeof DonationMatchedRequestIdRoute
   '/donation/request/$requestId': typeof DonationRequestRequestIdRoute
   '/donation/match': typeof DonationMatchIndexRoute
   '/bloodcard/donations/detail/$postId': typeof BloodcardDonationsDetailPostIdRoute
@@ -329,6 +344,7 @@ export interface FileRoutesByTo {
   '/chat/rooms/$roomId': typeof ChatRoomsRoomIdRoute
   '/donation/details/$donationId': typeof DonationDetailsDonationIdRoute
   '/donation/match/$requestId': typeof DonationMatchRequestIdRoute
+  '/donation/matched/$requestId': typeof DonationMatchedRequestIdRoute
   '/donation/request/$requestId': typeof DonationRequestRequestIdRoute
   '/donation/match': typeof DonationMatchIndexRoute
   '/bloodcard/donations/detail/$postId': typeof BloodcardDonationsDetailPostIdRoute
@@ -352,6 +368,7 @@ export interface FileRoutesById {
   '/chat/rooms/$roomId': typeof ChatRoomsRoomIdRoute
   '/donation/details/$donationId': typeof DonationDetailsDonationIdRoute
   '/donation/match/$requestId': typeof DonationMatchRequestIdRoute
+  '/donation/matched/$requestId': typeof DonationMatchedRequestIdRoute
   '/donation/request/$requestId': typeof DonationRequestRequestIdRoute
   '/donation/match/': typeof DonationMatchIndexRoute
   '/bloodcard/donations/detail/$postId': typeof BloodcardDonationsDetailPostIdRoute
@@ -376,6 +393,7 @@ export interface FileRouteTypes {
     | '/chat/rooms/$roomId'
     | '/donation/details/$donationId'
     | '/donation/match/$requestId'
+    | '/donation/matched/$requestId'
     | '/donation/request/$requestId'
     | '/donation/match'
     | '/bloodcard/donations/detail/$postId'
@@ -397,6 +415,7 @@ export interface FileRouteTypes {
     | '/chat/rooms/$roomId'
     | '/donation/details/$donationId'
     | '/donation/match/$requestId'
+    | '/donation/matched/$requestId'
     | '/donation/request/$requestId'
     | '/donation/match'
     | '/bloodcard/donations/detail/$postId'
@@ -418,6 +437,7 @@ export interface FileRouteTypes {
     | '/chat/rooms/$roomId'
     | '/donation/details/$donationId'
     | '/donation/match/$requestId'
+    | '/donation/matched/$requestId'
     | '/donation/request/$requestId'
     | '/donation/match/'
     | '/bloodcard/donations/detail/$postId'
@@ -441,6 +461,7 @@ export interface RootRouteChildren {
   ChatRoomsRoomIdRoute: typeof ChatRoomsRoomIdRoute
   DonationDetailsDonationIdRoute: typeof DonationDetailsDonationIdRoute
   DonationMatchRequestIdRoute: typeof DonationMatchRequestIdRoute
+  DonationMatchedRequestIdRoute: typeof DonationMatchedRequestIdRoute
   DonationRequestRequestIdRoute: typeof DonationRequestRequestIdRoute
   DonationMatchIndexRoute: typeof DonationMatchIndexRoute
   BloodcardDonationsDetailPostIdRoute: typeof BloodcardDonationsDetailPostIdRoute
@@ -463,6 +484,7 @@ const rootRouteChildren: RootRouteChildren = {
   ChatRoomsRoomIdRoute: ChatRoomsRoomIdRoute,
   DonationDetailsDonationIdRoute: DonationDetailsDonationIdRoute,
   DonationMatchRequestIdRoute: DonationMatchRequestIdRoute,
+  DonationMatchedRequestIdRoute: DonationMatchedRequestIdRoute,
   DonationRequestRequestIdRoute: DonationRequestRequestIdRoute,
   DonationMatchIndexRoute: DonationMatchIndexRoute,
   BloodcardDonationsDetailPostIdRoute: BloodcardDonationsDetailPostIdRoute,
@@ -494,6 +516,7 @@ export const routeTree = rootRoute
         "/chat/rooms/$roomId",
         "/donation/details/$donationId",
         "/donation/match/$requestId",
+        "/donation/matched/$requestId",
         "/donation/request/$requestId",
         "/donation/match/",
         "/bloodcard/donations/detail/$postId",
@@ -544,6 +567,9 @@ export const routeTree = rootRoute
     },
     "/donation/match/$requestId": {
       "filePath": "donation/match/$requestId.tsx"
+    },
+    "/donation/matched/$requestId": {
+      "filePath": "donation/matched/$requestId.tsx"
     },
     "/donation/request/$requestId": {
       "filePath": "donation/request/$requestId.tsx"
