@@ -1,13 +1,14 @@
-import { http, HttpResponse } from "msw";
+import { delay, http, HttpResponse } from "msw";
 
 const createDonationResponse = {
-  id: "createDonationResponse1",
+  id: "ugii64k7uhuyvt53mkk4",
 };
 
 const donationHandlers = [
   http.post(
     "https://mockupserver.com/api/donation/request",
     async (req, res, ctx) => {
+      await delay(1000);
       return HttpResponse.json(createDonationResponse);
     },
   ),

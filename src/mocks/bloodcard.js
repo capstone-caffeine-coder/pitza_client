@@ -1,4 +1,4 @@
-import { http, HttpResponse } from "msw";
+import { delay, http, HttpResponse } from "msw";
 
 const donateRequests = [
   {
@@ -122,7 +122,8 @@ const bloodcardHandlers = [
   ),
   http.get(
     "https://mockupserver.com/api/bloodCard/requests/recent",
-    (req, res, ctx) => {
+    async (req, res, ctx) => {
+      await delay(1000);
       return HttpResponse.json({ recentBloodCard: donateRequests });
     },
   ),

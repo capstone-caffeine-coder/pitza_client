@@ -1,6 +1,6 @@
 import { http, HttpResponse, ws } from "msw";
 import { sendIntervalMessage } from "./utils";
-import { chatList, chatLogs } from "./chat";
+import { chatHandlers, chatList, chatLogs } from "./chat";
 import { toSocketIo } from "@mswjs/socket.io-binding";
 import { matchHandlers } from "./match";
 import { donationHandlers } from "./donation";
@@ -82,6 +82,31 @@ const bloodDonationCenter = [
   },
 ];
 
+const flow = [
+  {
+    sender: "receiver001",
+    message_type: "text",
+    content: "안녕하세요",
+    sent_at: "2025-05-05T09:00:00Z",
+    is_read: true,
+  },
+  {
+    sender: "receiver001",
+    message_type: "text",
+    content: "테스트 하겠습니다.",
+    sent_at: "2025-05-05T09:00:00Z",
+    is_read: true,
+  },
+  {
+    sender: "receiver001",
+    message_type: "image",
+    content: "https://i.imgur.com/9P3QeGo.png",
+    sent_at: "2025-05-05T09:00:00Z",
+    is_read: true,
+  },
+];
+let chatFlow = 0;
+
 const chat = ws.link("wss://mockupserver.com/*");
 
 export const handlers = [
@@ -105,21 +130,49 @@ export const handlers = [
     },
   ),
 
-  http.get("https://mockupserver.com/api/chats", (req, res, ctx) => {
-    return HttpResponse.json(chatList);
-  }),
-
-  http.get("https://mockupserver.com/api/chat/rooms/*", (req, res, ctx) => {
-    return HttpResponse.json(chatLogs);
-  }),
-
   chat.addEventListener("connection", (connection) => {
     const io = toSocketIo(connection);
     let roomState = { open: true };
     let closeInternalMessage;
 
     io.client.on("message", (event) => {
+      console.log("Received message: 메시지받음", event.data);
+      setTimeout(
+        () => {
+          if (chatFlow < flow.length) {
+            if (flow[chatFlow].message_type === "text") {
+              io.client.emit("message", flow[chatFlow]);
+              console.log("message 보냄");
+            } else {
+              io.client.emit("image", flow[chatFlow]);
+              console.log("image 보냄");
+            }
+            chatFlow++;
+            console.log("chatFlow:", chatFlow);
+          }
+        },
+        1000 + chatFlow * 500,
+      );
+    });
+
+    io.client.on("image", (event) => {
       console.log("Received message:", event.data);
+      setTimeout(
+        () => {
+          if (chatFlow < flow.length) {
+            if (flow[chatFlow].message_type === "text") {
+              io.client.emit("message", flow[chatFlow]);
+              console.log("message 보냄");
+            } else {
+              io.client.emit("image", flow[chatFlow]);
+              console.log("image 보냄");
+            }
+            chatFlow++;
+            console.log("chatFlow:", chatFlow);
+          }
+        },
+        1000 + chatFlow * 500,
+      );
     });
 
     io.client.on("close", () => {
@@ -130,16 +183,17 @@ export const handlers = [
       }
     });
 
-    closeInternalMessage = sendIntervalMessage({
-      roomId: "room1",
-      sender: "server",
-      message: "Hello from the server!",
-      client: io.client,
-      isRoomOpen: () => roomState.open,
-    });
+    // closeInternalMessage = sendIntervalMessage({
+    //   roomId: "room1",
+    //   sender: "server",
+    //   content: "Hello from the server!",
+    //   client: io.client,
+    //   isRoomOpen: () => roomState.open,
+    // });
 
     console.log("WebSocket connection established");
   }),
+  ...chatHandlers,
   ...bloodcardHandlers,
   ...matchHandlers,
   ...donationHandlers,

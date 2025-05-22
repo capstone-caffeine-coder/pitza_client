@@ -12,14 +12,14 @@
 const sendIntervalMessage = ({
   roomId,
   sender,
-  message,
+  content,
   client,
   isRoomOpen,
 }) => {
   const payload = {
     roomId,
     sender,
-    message,
+    content,
     sent_at: new Date().toISOString(),
   };
 
