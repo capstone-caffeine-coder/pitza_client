@@ -1,11 +1,9 @@
-// context/SocketContext.tsx
 import { SocketContext } from "@/src/domains/Chat/hooks/useChatContext";
 import { Message, ImageMessage } from "@/src/domains/Chat/types";
-import React, { useEffect, useReducer } from "react";
+import React, { useEffect, useReducer, useRef, useCallback } from "react";
 import { io, Socket } from "socket.io-client";
 
 interface SocketState {
-  socket: Socket | null;
   isConnected: boolean;
   messages: (Message | ImageMessage)[];
   chatroomId: string;
@@ -13,16 +11,15 @@ interface SocketState {
 
 type Action =
   | { type: "CHATLOGS"; payload: Message[] }
-  | { type: "CONNECT"; payload: { chatroomId: string } }
+  | { type: "CONNECT"; payload: string }
   | { type: "DISCONNECT" }
   | { type: "RECEIVE_MESSAGE"; payload: Message }
   | { type: "RECEIVE_IMAGE"; payload: ImageMessage }
-  | { type: "SEND_MESSAGE"; payload: Omit<Message, "chatroom_id"> }
-  | { type: "SEND_IMAGE"; payload: Omit<ImageMessage, "chatroom_id"> };
+  | { type: "SEND_MESSAGE"; payload: Message }
+  | { type: "SEND_IMAGE"; payload: ImageMessage };
 
 // 초기 상태
 const initialState: SocketState = {
-  socket: null,
   isConnected: false,
   messages: [],
   chatroomId: "",
@@ -32,40 +29,26 @@ const initialState: SocketState = {
 const socketReducer = (state: SocketState, action: Action): SocketState => {
   switch (action.type) {
     case "CONNECT":
-      console.log("Socket connected");
       return {
         ...state,
         isConnected: true,
-        chatroomId: action.payload.chatroomId,
+        chatroomId: action.payload,
       };
     case "DISCONNECT":
-      return { ...state, isConnected: false, socket: null };
+      return { ...state, isConnected: false };
     case "RECEIVE_MESSAGE":
-      return { ...state, messages: [...state.messages, action.payload] };
     case "RECEIVE_IMAGE":
-      return { ...state, messages: [...state.messages, action.payload] };
     case "SEND_MESSAGE":
-      return {
-        ...state,
-        messages: [
-          ...state.messages,
-          { chatroom_id: state.chatroomId, ...action.payload },
-        ],
-      };
     case "SEND_IMAGE":
       return {
         ...state,
-        messages: [
-          ...state.messages,
-          { chatroom_id: state.chatroomId, ...action.payload },
-        ],
+        messages: [...state.messages, action.payload],
       };
     default:
       return state;
   }
 };
 
-// SocketProvider 컴포넌트
 export const ChatProvider = ({
   children,
   roomId,
@@ -74,16 +57,18 @@ export const ChatProvider = ({
   roomId: string;
 }) => {
   const [state, dispatch] = useReducer(socketReducer, initialState);
+  const socketRef = useRef<Socket | null>(null);
 
   useEffect(() => {
     const socket = io(`wss://mockupserver.com`, {
       transports: ["websocket"],
       path: `/chat/${roomId}/socket.io`,
     });
+    socketRef.current = socket;
 
     socket.on("connect", () => {
       console.log("Socket connected");
-      dispatch({ type: "CONNECT", payload: { chatroomId: roomId } });
+      dispatch({ type: "CONNECT", payload: roomId });
     });
 
     socket.on("disconnect", () => {
@@ -93,24 +78,60 @@ export const ChatProvider = ({
     socket.on("message", (msg: Omit<Message, "chatroom_id">) => {
       dispatch({
         type: "RECEIVE_MESSAGE",
-        payload: { ...msg, chatroom_id: state.chatroomId },
+        payload: {
+          ...msg,
+          chatroom_id: roomId,
+          message_type: "text",
+        },
       });
     });
 
     socket.on("image", (msg: Omit<ImageMessage, "chatroom_id">) => {
       dispatch({
         type: "RECEIVE_IMAGE",
-        payload: { ...msg, chatroom_id: state.chatroomId },
+        payload: {
+          ...msg,
+          chatroom_id: roomId,
+          message_type: "image",
+        },
       });
     });
+
     return () => {
       socket.emit("close");
       socket.disconnect();
+      socketRef.current = null;
     };
-  }, [roomId, state.chatroomId]);
+  }, [roomId]);
+
+  // 메시지 전송 핸들러: socket.emit 분리
+  const sendMessage = useCallback(
+    (payload: Omit<Message, "chatroom_id">) => {
+      const msg: Message = { ...payload, chatroom_id: roomId };
+      socketRef.current?.emit("message", payload);
+      dispatch({ type: "SEND_MESSAGE", payload: msg });
+    },
+    [roomId],
+  );
+
+  const sendImage = useCallback(
+    (payload: Omit<ImageMessage, "chatroom_id">) => {
+      const msg: ImageMessage = { ...payload, chatroom_id: roomId };
+      socketRef.current?.emit("image", payload);
+      dispatch({ type: "SEND_IMAGE", payload: msg });
+    },
+    [roomId],
+  );
 
   return (
-    <SocketContext.Provider value={{ state, dispatch }}>
+    <SocketContext.Provider
+      value={{
+        state,
+        dispatch,
+        sendMessage,
+        sendImage,
+      }}
+    >
       {children}
     </SocketContext.Provider>
   );
