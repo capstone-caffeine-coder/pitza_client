@@ -1,13 +1,17 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button } from "@/src/components/common/button";
-import { FormRow } from "@/src/components/common/form";
+import { FormError, FormRow } from "@/src/components/common/form";
 import { FileInput } from "@/src/components/common/input";
 import Select from "@/src/components/common/select";
 import { assetMap } from "@/src/assets";
 import { BLOOOD_TYPES } from "@/src/types/donationInfo";
+import { useMutation } from "@tanstack/react-query";
+import { finishProfileSet } from "@/src/domains/auth/api";
+import { useAuthStore } from "@/src/store/authStore";
+import { useState } from "react";
 
 const profileSchema = z.object({
   sex: z.enum(["MALE", "FEMALE"], {
@@ -17,6 +21,11 @@ const profileSchema = z.object({
     required_error: "혈액형을 선택해주세요",
     invalid_type_error: "혈액형을 선택해주세요",
   }),
+  birthdate: z
+    .string({
+      required_error: "생년월일을 입력해주세요",
+    })
+    .regex(/^\d{4}-\d{2}-\d{2}$/, "올바른 생년월일 형식이 아닙니다"),
   profile_picture: z
     .instanceof(File, {
       message: "프로필 이미지를 업로드해주세요",
@@ -51,16 +60,23 @@ function RouteComponent() {
     defaultValues: {
       sex: "MALE",
       blood_type: "A+",
+      birthdate: "",
       profile_picture: null,
       nickname: "",
+    },
+  });
+  const navigate = useNavigate();
+  const { mutate: profileSetup, isPending } = useMutation({
+    mutationFn: finishProfileSet,
+    onSuccess: () => {
+      navigate({ to: "/" });
     },
   });
 
   const profileImage = watch("profile_picture");
 
   const onSubmit = async (data: ProfileSetupForm) => {
-    // TODO: API 호출 구현
-    console.log("Form submitted:", data);
+    profileSetup(data);
   };
 
   return (
@@ -70,7 +86,7 @@ function RouteComponent() {
       <div className="flex w-full flex-col items-center justify-center gap-4">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex h-full w-full max-w-md flex-col items-center justify-center gap-4"
+          className="flex h-full w-full max-w-md flex-col justify-center gap-4"
         >
           <FileInput
             onChange={(e) => {
@@ -95,10 +111,8 @@ function RouteComponent() {
               </div>
             )}
           </FileInput>
-          {errors.profile_picture && (
-            <p className="text-sm text-red-500">
-              {errors.profile_picture.message}
-            </p>
+          {errors.profile_picture?.message && (
+            <FormError error={errors.profile_picture.message} />
           )}
 
           <FormRow label="닉네임">
@@ -107,10 +121,10 @@ function RouteComponent() {
               className="w-full rounded-full bg-primary px-4 py-2 text-white"
               {...register("nickname", { required: true })}
             />
+            {errors.nickname?.message && (
+              <FormError error={errors.nickname.message} />
+            )}
           </FormRow>
-          {errors.nickname && (
-            <p className="text-sm text-red-500">{errors.nickname.message}</p>
-          )}
 
           <FormRow label="성별">
             <div className="flex gap-6 pl-4">
@@ -133,10 +147,8 @@ function RouteComponent() {
                 여성
               </label>
             </div>
+            {errors.sex?.message && <FormError error={errors.sex.message} />}
           </FormRow>
-          {errors.sex && (
-            <p className="text-sm text-red-500">{errors.sex.message}</p>
-          )}
 
           <FormRow label="혈액형">
             <Select
@@ -152,17 +164,29 @@ function RouteComponent() {
                 },
               })}
             />
+            {errors.blood_type?.message && (
+              <FormError error={errors.blood_type.message} />
+            )}
           </FormRow>
-          {errors.blood_type && (
-            <p className="text-sm text-red-500">{errors.blood_type.message}</p>
-          )}
+
+          <FormRow label="생년월일">
+            <input
+              type="date"
+              className="w-1/2 rounded-full bg-primary px-4 py-2 text-white"
+              {...register("birthdate", { required: true })}
+            />
+            {errors.birthdate?.message && (
+              <FormError error={errors.birthdate.message} />
+            )}
+          </FormRow>
 
           <Button
             type="submit"
             variant="default"
             className="mt-10 w-full rounded-full p-6"
+            disabled={isPending}
           >
-            저장하기
+            {isPending ? "저장중..." : "저장하기"}
           </Button>
         </form>
       </div>
