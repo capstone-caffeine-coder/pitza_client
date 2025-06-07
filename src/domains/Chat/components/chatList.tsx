@@ -1,3 +1,4 @@
+import { assetMap } from "@/src/assets";
 import { ErrorComponent } from "@/src/components/common/error";
 import { getChats } from "@/src/domains/Chat/api";
 import { useQuery } from "@tanstack/react-query";
@@ -11,6 +12,17 @@ const ChatList = () => {
 
   if (isPending) return <ChatListSkeleton />;
   if (error) return <ErrorComponent />;
+  if (!data.length)
+    return (
+      <div className="flex h-full w-full flex-col items-center justify-center gap-10">
+        <img
+          src={assetMap["pitza_spinner"]}
+          alt="채팅방이 없습니다."
+          className="h-48 w-48"
+        />
+        <p className="text-xl text-gray-500">채팅방이 없습니다.</p>
+      </div>
+    );
   return (
     <div className="flex w-full flex-col items-center">
       <ul className="w-full">
