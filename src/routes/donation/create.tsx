@@ -22,14 +22,16 @@ function RouteComponent() {
   const navigate = useNavigate();
   const { register, handleSubmit, setValue, watch } = useForm<CreateDonation>({
     defaultValues: {
-      bloodType: "A+",
+      blood_type: "A+",
       age: 0,
-      gender: "MALE",
+      sex: "M",
       location: "서울특별시",
-      deadline: new Date(),
-      story: "",
+      content: "",
       image: undefined,
-      doncationId: "",
+      donator_registered_id: "",
+      donation_due_date: new Date(),
+      name: "민수",
+      requester: 1,
     },
   });
   const { isPending, mutate: createRequest } = useMutation({
@@ -90,8 +92,8 @@ function RouteComponent() {
                 className="w-1/2 rounded-full bg-primary text-center text-white"
                 options={[...BLOOOD_TYPES]}
                 placeholder="혈액형을 선택하세요"
-                value={watch("bloodType")}
-                {...register("bloodType")}
+                value={watch("blood_type")}
+                {...register("blood_type")}
               />
             </FormRow>
 
@@ -112,8 +114,8 @@ function RouteComponent() {
                 <label className="flex items-center gap-2">
                   <input
                     type="radio"
-                    value="FEMALE"
-                    {...register("gender")}
+                    value="F"
+                    {...register("sex")}
                     className="h-4 w-4 appearance-none rounded border border-gray-400 checked:border-transparent checked:bg-primary"
                   />
                   여성
@@ -121,8 +123,8 @@ function RouteComponent() {
                 <label className="flex items-center gap-2">
                   <input
                     type="radio"
-                    value="MALE"
-                    {...register("gender")}
+                    value="M"
+                    {...register("sex")}
                     className="h-4 w-4 appearance-none rounded border border-gray-400 checked:border-transparent checked:bg-primary"
                   />
                   남성
@@ -154,7 +156,7 @@ function RouteComponent() {
               <input
                 type="date"
                 className="w-1/2 rounded-full border bg-primary px-4 py-2 text-white"
-                {...register("deadline", { valueAsDate: true })}
+                {...register("donation_due_date", { valueAsDate: true })}
               />
             </FormRow>
             <FormRow label="사연">
@@ -166,7 +168,7 @@ function RouteComponent() {
                   target.style.height = "auto";
                   target.style.height = `${target.scrollHeight}px`;
                 }}
-                {...register("story")}
+                {...register("content")}
               />
             </FormRow>
             <FormRow label="등록번호">
@@ -177,7 +179,7 @@ function RouteComponent() {
                   target.style.height = "auto";
                   target.style.height = `${target.scrollHeight}px`;
                 }}
-                {...register("doncationId")}
+                {...register("donator_registered_id")}
               />
             </FormRow>
 
