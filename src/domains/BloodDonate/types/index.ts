@@ -1,22 +1,25 @@
 import { Age, BloodType, Gender, Region } from "@/src/types/donationInfo";
 
 interface MatchRequest {
+  id: number;
   blood_type: BloodType;
   age: Age;
-  gender: Gender;
+  sex: Gender;
   location: Region;
-  next_donation_date: string;
+  next_donation_date: Date;
 }
 
 interface CreateDonation {
-  bloodType: BloodType;
+  requester: number;
+  name: string;
+  blood_type: BloodType;
   age: number;
-  gender: Gender;
+  sex: Gender;
   location: Region;
-  deadline: Date;
-  story: string;
+  content: string;
   image?: File;
-  doncationId: string;
+  donation_due_date: Date;
+  donator_registered_id: string;
 }
 
 export type { MatchRequest, CreateDonation };

@@ -1,4 +1,4 @@
-type Gender = "MALE" | "FEMALE";
+type Gender = "M" | "F";
 type BloodType = (typeof BLOOOD_TYPES)[number];
 type Region = (typeof REGIONS)[number];
 type Age = (typeof AGE)[number];
