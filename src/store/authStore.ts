@@ -13,7 +13,9 @@ interface AuthStore extends UserInfo {
   // 상태 관리
   login: (userInfo: UserInfo) => void;
   logout: () => void;
-  updateUser: (userInfo: UserInfo) => void;
+  updateUser: (
+    userInfo: Partial<AuthStore & { is_profile_complete: boolean }>,
+  ) => void;
 
   // 데이터 페칭
   fetchUser: () => Promise<void>;
@@ -44,13 +46,11 @@ const useAuthStore = create<AuthStore>()((set) => ({
       id: null,
     }),
 
-  updateUser: ({ nickname, email, kakao_id, profile_picture }) =>
-    set({
-      nickname,
-      email,
-      kakao_id,
-      profile_picture,
-    }),
+  updateUser: ({ ...userInfo }) =>
+    set((state) => ({
+      ...state,
+      ...userInfo,
+    })),
 
   fetchUser: async () => {
     set({ isLoading: true, error: null });
