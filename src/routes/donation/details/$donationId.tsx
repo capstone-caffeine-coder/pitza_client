@@ -1,4 +1,3 @@
-import { Button } from "@/src/components/common/button";
 import { ErrorComponent } from "@/src/components/common/error";
 import Header from "@/src/components/common/header";
 import { SpinnerModal } from "@/src/components/common/spinner";
@@ -54,28 +53,17 @@ function RouteComponent() {
           className="h-[300px] w-full rounded-xl object-cover shadow-xl"
         />
         <section>
-          <p className="py-2 text-lg">{data.nickname}</p>
+          <p className="py-2 text-lg">{data.name}</p>
           <hr />
           <Info field="나이" value={data.age.toString()} />
           <Info field="지역" value={data.location} />
-          <Info field="혈액형" value={data.bloodType} />
-          <Info field="수혈 마감 기한" value={data.donationDueDate} />
+          <Info field="혈액형" value={data.blood_type} />
+          <Info field="수혈 마감 기한" value={data.donation_due_date} />
         </section>
         <section>
           <h2 className="text-xl">사연</h2>
-          <p className="p-2">{data.story}</p>
+          <p className="p-2">{data.content}</p>
         </section>
-      </div>
-      <div className="absolute bottom-20 left-0 flex w-full gap-3 bg-white p-4">
-        <Button
-          className="w-1/4 py-6"
-          variant={"outline"}
-          type="button"
-          onClick={() => rematch(location.state.matchData)}
-        >
-          재매칭
-        </Button>
-        <Button className="flex-1 py-6">매칭하기</Button>
       </div>
     </div>
   );

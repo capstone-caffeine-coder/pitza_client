@@ -29,20 +29,20 @@ function RouteComponent() {
           <Button className="w-1/2">취소하기</Button>
         </div>
         <img
-          src={data.image}
+          src={data.image?.replace("minio", "172.0.0.1")}
           className="h-[400px] w-full rounded-xl object-contain shadow-xl"
         />
         <section>
-          <p className="py-2 text-lg">{data.nickname}</p>
+          <p className="py-2 text-lg">{data.name}</p>
           <hr />
           <Info field="나이" value={data.age.toString()} />
           <Info field="지역" value={data.location} />
-          <Info field="혈액형" value={data.bloodType} />
-          <Info field="수혈 마감 기한" value={data.donationDueDate} />
+          <Info field="혈액형" value={data.blood_type} />
+          <Info field="수혈 마감 기한" value={data.donation_due_date} />
         </section>
         <section>
           <h2 className="text-xl">사연</h2>
-          <p className="p-2">{data.story}</p>
+          <p className="p-2">{data.content}</p>
         </section>
       </div>
     </div>
