@@ -4,17 +4,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button } from "@/src/components/common/button";
 import { FormError, FormRow } from "@/src/components/common/form";
-import { FileInput } from "@/src/components/common/input";
 import Select from "@/src/components/common/select";
 import { assetMap } from "@/src/assets";
 import { BLOOOD_TYPES } from "@/src/types/donationInfo";
 import { useMutation } from "@tanstack/react-query";
 import { finishProfileSet } from "@/src/domains/auth/api";
 import { useAuthStore } from "@/src/store/authStore";
-import { useState } from "react";
 
 const profileSchema = z.object({
-  sex: z.enum(["MALE", "FEMALE"], {
+  sex: z.enum(["M", "F"], {
     required_error: "성별을 선택해주세요",
   }),
   blood_type: z.enum(BLOOOD_TYPES as unknown as [string, ...string[]], {
@@ -26,11 +24,6 @@ const profileSchema = z.object({
       required_error: "생년월일을 입력해주세요",
     })
     .regex(/^\d{4}-\d{2}-\d{2}$/, "올바른 생년월일 형식이 아닙니다"),
-  profile_picture: z
-    .instanceof(File, {
-      message: "프로필 이미지를 업로드해주세요",
-    })
-    .nullable(),
   nickname: z
     .string()
     .min(2, "닉네임은 2자 이상이어야 합니다")
@@ -52,28 +45,31 @@ function RouteComponent() {
     register,
     handleSubmit,
     setValue,
-    watch,
     formState: { errors },
+    watch,
   } = useForm<ProfileSetupForm>({
     resolver: zodResolver(profileSchema),
     mode: "onChange",
     defaultValues: {
-      sex: "MALE",
+      sex: "M",
       blood_type: "A+",
       birthdate: "",
-      profile_picture: null,
       nickname: "",
     },
   });
   const navigate = useNavigate();
+  const profilePicture = useAuthStore((state) => state.profile_picture);
+  const updateUser = useAuthStore((state) => state.updateUser);
   const { mutate: profileSetup, isPending } = useMutation({
     mutationFn: finishProfileSet,
     onSuccess: () => {
+      updateUser({
+        nickname: watch("nickname"),
+        is_profile_complete: true,
+      });
       navigate({ to: "/" });
     },
   });
-
-  const profileImage = watch("profile_picture");
 
   const onSubmit = async (data: ProfileSetupForm) => {
     profileSetup(data);
@@ -88,32 +84,14 @@ function RouteComponent() {
           onSubmit={handleSubmit(onSubmit)}
           className="flex h-full w-full max-w-md flex-col justify-center gap-4"
         >
-          <FileInput
-            onChange={(e) => {
-              const file = (e.target as HTMLInputElement).files?.[0];
-              if (file) {
-                setValue("profile_picture", file, { shouldValidate: true });
-              }
-            }}
-            className="h-36 w-36"
-          >
-            {profileImage ? (
+          <div className="flex h-[150px] w-[150px] items-center justify-center rounded-full bg-primary">
+            <div className="flex flex-col items-center justify-center gap-2">
               <img
-                src={URL.createObjectURL(profileImage)}
-                alt="프로필 이미지"
-                className="flex h-full w-full rounded-full object-cover"
+                src={profilePicture ?? assetMap["characterIcon"]}
+                className="h-24 w-24"
               />
-            ) : (
-              <div className="flex h-full w-full items-center justify-center rounded-full bg-primary">
-                <div className="flex flex-col items-center justify-center gap-2">
-                  <img src={assetMap["characterIcon"]} className="h-24 w-24" />
-                </div>
-              </div>
-            )}
-          </FileInput>
-          {errors.profile_picture?.message && (
-            <FormError error={errors.profile_picture.message} />
-          )}
+            </div>
+          </div>
 
           <FormRow label="닉네임">
             <input
@@ -131,7 +109,7 @@ function RouteComponent() {
               <label className="flex items-center gap-2">
                 <input
                   type="radio"
-                  value="MALE"
+                  value="M"
                   {...register("sex", { required: true })}
                   className="h-4 w-4 appearance-none rounded border border-gray-400 checked:border-transparent checked:bg-primary"
                 />
@@ -140,7 +118,7 @@ function RouteComponent() {
               <label className="flex items-center gap-2">
                 <input
                   type="radio"
-                  value="FEMALE"
+                  value="F"
                   {...register("sex", { required: true })}
                   className="h-4 w-4 appearance-none rounded border border-gray-400 checked:border-transparent checked:bg-primary"
                 />
