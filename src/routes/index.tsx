@@ -14,15 +14,16 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const navigate = useNavigate();
+  const status = useAuthStore((state) => state.status);
   const nickname = useAuthStore((state) => state.nickname);
   const logout = useAuthStore((state) => state.logout);
   return (
     <>
       <Header goBack={false} className="h-20">
         <span className="absolute left-4 text-xl font-bold">PITZA</span>
-        {nickname ? (
+        {status === "LOGGED_IN" ? (
           <div className="absolute right-4 flex items-center gap-2">
-            <span>{nickname}님</span>
+            <span>{nickname ? `${nickname}님` : "닉네임을 설정해주세요."}</span>
             <BiMenu size={30} />
           </div>
         ) : (

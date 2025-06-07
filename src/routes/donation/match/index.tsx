@@ -3,7 +3,10 @@ import { Button } from "@/src/components/common/button";
 import { FormRow } from "@/src/components/common/form";
 import Header from "@/src/components/common/header";
 import Select from "@/src/components/common/select";
-import { bloodDontationMatch } from "@/src/domains/BloodDonate/api";
+import {
+  bloodDontationMatch,
+  matchAccept,
+} from "@/src/domains/BloodDonate/api";
 import MatchPending from "@/src/domains/BloodDonate/components/matchPending";
 import { MatchRequest } from "@/src/domains/BloodDonate/types";
 import { AGE, BLOOOD_TYPES, REGIONS } from "@/src/types/donationInfo";
@@ -16,12 +19,14 @@ export const Route = createFileRoute("/donation/match/")({
 });
 
 function RouteComponent() {
-  const { register, handleSubmit } = useForm<MatchRequest>({
+  const { register, handleSubmit, watch } = useForm<MatchRequest>({
     defaultValues: {
+      id: Math.floor(Math.random() * 100),
       blood_type: "A+",
       age: "10",
-      gender: "MALE",
+      sex: "M",
       location: "서울특별시",
+      next_donation_date: new Date(),
     },
   });
   const { navigate } = useRouter();
@@ -90,8 +95,8 @@ function RouteComponent() {
               <label className="flex items-center gap-2">
                 <input
                   type="radio"
-                  value="FEMALE"
-                  {...register("gender")}
+                  value="F"
+                  {...register("sex")}
                   className="h-4 w-4 appearance-none rounded border border-gray-400 checked:border-transparent checked:bg-primary"
                 />
                 여성
@@ -99,8 +104,8 @@ function RouteComponent() {
               <label className="flex items-center gap-2">
                 <input
                   type="radio"
-                  value="MALE"
-                  {...register("gender")}
+                  value="M"
+                  {...register("sex")}
                   className="h-4 w-4 appearance-none rounded border border-gray-400 checked:border-transparent checked:bg-primary"
                 />
                 남성
@@ -131,7 +136,10 @@ function RouteComponent() {
             <input
               type="date"
               className="w-1/2 rounded-full border bg-primary px-4 py-2"
-              value={new Date().toISOString().split("T")[0]}
+              value={
+                watch("next_donation_date")?.toISOString().split("T")[0] ||
+                new Date().toISOString().split("T")[0]
+              }
               {...register("next_donation_date", { valueAsDate: true })}
             />
           </FormRow>
