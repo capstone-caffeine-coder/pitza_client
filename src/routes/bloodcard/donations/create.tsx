@@ -3,8 +3,11 @@ import { FormRow } from "@/src/components/common/form";
 import Header from "@/src/components/common/header";
 import { FileInput } from "@/src/components/common/input";
 import Select from "@/src/components/common/select";
+import { SpinnerModal } from "@/src/components/common/spinner";
 import { REGIONS } from "@/src/constants/form";
-import { createFileRoute } from "@tanstack/react-router";
+import { createBloodCardDonate } from "@/src/domains/BloodCard/api";
+import { useMutation } from "@tanstack/react-query";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 import { IoMdCamera } from "react-icons/io";
 
@@ -13,39 +16,40 @@ export const Route = createFileRoute("/bloodcard/donations/create")({
 });
 
 type CreateDonation = {
-  bloodType:
-    | "Rh+A"
-    | "Rh-A"
-    | "Rh+B"
-    | "Rh-B"
-    | "Rh+O"
-    | "Rh-O"
-    | "Rh+AB"
-    | "Rh-AB";
+  blood_type: "A+" | "A-" | "B+" | "B-" | "O+" | "O-" | "AB+" | "AB-";
   age: number;
-  gender: "MALE" | "FEMALE";
-  location: (typeof REGIONS)[number];
-  story: string;
-  deadline: Date;
+  gender: "M" | "F";
+  region: (typeof REGIONS)[number];
+  introduction: string;
+  // deadline: Date;
   image?: File;
 };
 function RouteComponent() {
   const { register, handleSubmit, setValue, watch } = useForm<CreateDonation>({
     defaultValues: {
-      bloodType: "Rh+A",
+      blood_type: "A+",
       age: 0,
-      gender: "MALE",
-      location: "강원특별자치도",
-      deadline: new Date(),
-      story: "",
+      gender: "M",
+      region: "강원특별자치도",
+      introduction: "",
+      // deadline: new Date(),
       image: undefined,
     },
     mode: "onChange",
   });
+  const navigate = useNavigate();
+  const { mutate, isPending, error } = useMutation({
+    mutationFn: createBloodCardDonate,
+    onSuccess: ({ id }) =>
+      navigate({
+        to: "/bloodcard/donations/detail/$postId",
+        params: { postId: id.toString() },
+      }),
+  });
   const donateImage = watch("image");
 
   const onSubmit = (data: CreateDonation) => {
-    console.log("🩸 Submitted donation request:", data);
+    mutate(data);
   };
 
   return (
@@ -84,23 +88,14 @@ function RouteComponent() {
           <FormRow label="혈액형">
             <Select
               className="w-1/2 rounded-full bg-primary text-center"
-              options={[
-                "Rh+A",
-                "Rh-A",
-                "Rh+B",
-                "Rh-B",
-                "Rh+O",
-                "Rh-O",
-                "Rh+AB",
-                "Rh-AB",
-              ]}
+              options={["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"]}
               placeholder="혈액형을 선택하세요"
-              {...register("bloodType")}
+              {...register("blood_type")}
             />
           </FormRow>
 
           {/* 나이 */}
-          {/* <FormRow label="나이">
+          <FormRow label="나이">
             <input
               type="number"
               className="w-1/2 rounded-full bg-primary px-3 py-2"
@@ -108,15 +103,15 @@ function RouteComponent() {
               min={0}
               {...register("age", { valueAsNumber: true })}
             />
-          </FormRow> */}
+          </FormRow>
 
           {/* 성별 */}
-          {/* <FormRow label="성별">
+          <FormRow label="성별">
             <div className="flex gap-6 pl-4">
               <label className="flex items-center gap-2">
                 <input
                   type="radio"
-                  value="FEMALE"
+                  value="F"
                   {...register("gender")}
                   className="h-4 w-4 appearance-none rounded border border-gray-400 checked:border-transparent checked:bg-primary"
                 />
@@ -125,7 +120,7 @@ function RouteComponent() {
               <label className="flex items-center gap-2">
                 <input
                   type="radio"
-                  value="MALE"
+                  value="M"
                   {...register("gender")}
                   className="h-4 w-4 appearance-none rounded border border-gray-400 checked:border-transparent checked:bg-primary"
                 />
@@ -134,7 +129,6 @@ function RouteComponent() {
             </div>
           </FormRow>
 
-          {/* 지역 */}
           <FormRow label="지역">
             <div className="grid w-full grid-cols-3 gap-2">
               {REGIONS.map((region) => (
@@ -142,7 +136,7 @@ function RouteComponent() {
                   <input
                     type="radio"
                     value={region}
-                    {...register("location")}
+                    {...register("region")}
                     className="peer hidden"
                   />
                   <div className="cursor-pointer rounded border py-1 text-center peer-checked:bg-primary peer-checked:text-white">
@@ -162,7 +156,7 @@ function RouteComponent() {
                 target.style.height = "auto";
                 target.style.height = `${target.scrollHeight}px`;
               }}
-              {...register("story")}
+              {...register("introduction")}
             />
           </FormRow>
 
@@ -170,6 +164,7 @@ function RouteComponent() {
             등록하기
           </Button>
         </form>
+        {isPending && <SpinnerModal />}
       </div>
     </main>
   );

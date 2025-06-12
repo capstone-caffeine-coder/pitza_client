@@ -1,7 +1,7 @@
 type ChatRoom = {
   id: number;
-  roomId: string;
-  lastMessage: string;
+  chatroom_id: string;
+  last_message: string;
   partner: {
     id: string;
     name: string;
@@ -10,18 +10,37 @@ type ChatRoom = {
 };
 
 type Message = {
-  message_type: "text";
-  chatroom_id: string;
+  messageType: "text";
+  message: string;
+  timestamp: string;
+  userId: number;
+  is_read: boolean;
+};
+type Messages = {
   sender: string;
-  content: string;
-  sent_at: string;
+  message: string;
+  timestamp: string;
+  message_type: "text" | "image";
+  image_url: string | null;
+  is_read: boolean;
 };
 
 type ImageMessage = {
   message_type: "image";
-  chatroom_id: string;
   sender: string;
-  content: string;
+  message: string;
+  timestamp: string;
+  image_url: string;
+  is_read: boolean;
+};
+
+type SendMessagePayload = {
+  sender: string;
+  roomId: string;
+  message: string;
+  message_type: "text" | "image";
+  image_url: string | null;
+  is_read: boolean;
 };
 
 export type ChatLogs = {
@@ -29,4 +48,4 @@ export type ChatLogs = {
   messages: Message[];
 };
 
-export type { ChatRoom, Message, ImageMessage };
+export type { ChatRoom, Message, ImageMessage, SendMessagePayload, Messages };
