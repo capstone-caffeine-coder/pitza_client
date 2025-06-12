@@ -15,28 +15,28 @@ function DonationCenterList() {
         <div
           key={`center-${center.id}`}
           className="flex cursor-pointer items-center gap-2 p-4"
-          onClick={() => changeCenterLocation(center.location)}
+          onClick={() =>
+            changeCenterLocation({
+              latitude: center.latitude,
+              longitude: center.longitude,
+            })
+          }
         >
-          <CenterImage src={center.center_image_url} />
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary">
+            <FaLocationDot className="text-white" size={20} />
+          </div>
           <div>
             <p>{center.name}</p>
             <p className="text-subText">{center.address}</p>
           </div>
         </div>
       ))}
+      {centers?.length === 0 && (
+        <div className="flex h-[200px] w-full items-center justify-center">
+          <p className="text-lg text-subText">근처 헌혈센터가 없습니다.</p>
+        </div>
+      )}
     </div>
-  );
-}
-
-function CenterImage({ src }: { src: string }) {
-  if (!src)
-    return (
-      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary">
-        <FaLocationDot className="text-white" size={20} />
-      </div>
-    );
-  return (
-    <img src={src} alt="헌혈센터 이미지" className="h-12 w-12 rounded-xl" />
   );
 }
 

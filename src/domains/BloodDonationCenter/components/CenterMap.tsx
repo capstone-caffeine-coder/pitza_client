@@ -8,19 +8,18 @@ import { Map, MapMarker } from "react-kakao-maps-sdk";
 export function CenterMap() {
   useKakaoLoader();
   const mapRef = React.useRef<kakao.maps.Map>(null);
-  const { location, focusOnMyLocation } = useLocationContext();
+  const { location, focusOnMyLocation, changeCenterLocation } =
+    useLocationContext();
   const { centers } = useDonationCenter();
 
-  const handleCenterToCurrentLocation = async () => {
-    setTimeout(() => {
-      if (mapRef.current && location) {
-        const latLng = new kakao.maps.LatLng(
-          location.latitude,
-          location.longitude,
-        );
-        mapRef.current.panTo(latLng);
-      }
-    }, 500);
+  const handleCenterChange = () => {
+    if (mapRef.current) {
+      const center = mapRef.current.getCenter();
+      changeCenterLocation({
+        latitude: center.getLat(),
+        longitude: center.getLng(),
+      });
+    }
   };
 
   return (
@@ -34,12 +33,13 @@ export function CenterMap() {
         isPanto={true}
         level={3}
         className="h-full w-full"
+        onDragEnd={handleCenterChange}
       >
         {centers?.map((center) => (
           <MapMarker
             position={{
-              lat: center.location.latitude,
-              lng: center.location.longitude,
+              lat: center.latitude,
+              lng: center.longitude,
             }}
           />
         ))}
