@@ -1,4 +1,3 @@
-import { ErrorComponent } from "@/src/components/common/error";
 import { getRecentBloodCard } from "@/src/domains/BloodCard/api";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
@@ -66,19 +65,19 @@ const RecentBloodCard = () => {
         {data?.map((card) => (
           <Link
             to="/bloodcard/donations/detail/$postId"
-            params={{ postId: card.id }}
+            params={{ postId: card.id.toString() }}
             key={card.id}
           >
             <div className="flex items-center gap-4 rounded-lg border p-4">
               <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary">
-                <span className="text-xl text-white">{card.bloodType}</span>
+                <span className="text-xl text-white">{card.blood_type}</span>
               </div>
 
               <div className="flex flex-1 flex-col gap-2">
-                <h3 className="text-lg font-semibold">{card.nickname}</h3>
+                <h3 className="text-lg font-semibold">{card.donor_username}</h3>
                 <div className="flex gap-2 text-sm text-gray-600">
                   <span>{card.age}세</span>
-                  <span>{card.location}</span>
+                  <span>{card.region}</span>
                 </div>
               </div>
 
