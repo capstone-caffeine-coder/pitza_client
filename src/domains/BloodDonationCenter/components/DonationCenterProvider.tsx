@@ -2,7 +2,7 @@ import { getBloodDonationCenters } from "@/src/domains/BloodDonationCenter/api";
 import { useLocationContext } from "@/src/domains/BloodDonationCenter/hooks/useLocationContext";
 import { BloodDonationCenter } from "@/src/domains/BloodDonationCenter/types";
 import { useQuery } from "@tanstack/react-query";
-import { createContext } from "react";
+import { createContext, useEffect } from "react";
 
 type DonationCenterContextType = {
   centers: BloodDonationCenter[] | null;
@@ -16,7 +16,7 @@ const DonationCenterContext = createContext<DonationCenterContextType | null>(
 
 function DonationCenterProvider({ children }: { children: React.ReactNode }) {
   const { location } = useLocationContext();
-  const { data, error, isPending } = useQuery({
+  const { data, error, isPending, refetch } = useQuery({
     queryKey: ["donationCenter", location.latitude, location.longitude],
     queryFn: () =>
       getBloodDonationCenters({
@@ -24,6 +24,12 @@ function DonationCenterProvider({ children }: { children: React.ReactNode }) {
         longitude: location.longitude,
       }),
   });
+
+  useEffect(() => {
+    if (location) {
+      refetch();
+    }
+  }, [location.latitude, location.longitude, location, refetch]);
   return (
     <DonationCenterContext.Provider
       value={{ centers: data ?? [], error, isPending }}

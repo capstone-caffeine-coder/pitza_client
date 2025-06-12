@@ -2,12 +2,11 @@ interface BloodDonationCenter {
   id: number;
   name: string;
   address: string;
-  location: {
-    latitude: number;
-    longitude: number;
-  };
-  tel: string;
-  center_image_url: string;
+  latitude: number;
+  longitude: number;
+  phone: string;
+  distance: number;
+  blood_office: string;
 }
 
 export type { BloodDonationCenter };
