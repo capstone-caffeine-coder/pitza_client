@@ -1,4 +1,4 @@
-import { apiInstance } from "@/src/api";
+import { apiInstance, apiServerInstance } from "@/src/api";
 
 interface CreateChatRoomResponse {
   chatroom_id: string;
@@ -12,11 +12,10 @@ interface CreateChatRoomRequest {
 const createChatRoom = async (
   createChatRoomRequest: CreateChatRoomRequest,
 ): Promise<CreateChatRoomResponse> => {
-  const { data } = await apiInstance.post<CreateChatRoomResponse>(
+  const { data } = await apiServerInstance.post<CreateChatRoomResponse>(
     "/chat/rooms",
     createChatRoomRequest,
   );
-  console.log(data);
   return data;
 };
 
