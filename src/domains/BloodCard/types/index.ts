@@ -1,23 +1,22 @@
 interface BloodCard {
-  id: string;
+  id: number;
   age: number;
+  donor_username: string;
   nickname: string;
-  sex: "MALE" | "FEMALE";
-  bloodType: string;
-  location: string;
-  profile_image: string;
-  donationDate: string;
-  donationLocation: string;
-  createdAt: string;
-  updatedAt: string;
+  gender: "M" | "F";
+  blood_type: string;
+  introduction: string;
+  created_at: string;
+  region: string;
+  image: string;
 }
 
 interface BloodDonerCard {
   id: string;
   age: number;
   nickname: string;
-  sex: "MALE" | "FEMALE";
-  bloodType: string;
+  gender: "MALE" | "FEMALE";
+  blood_type: string;
   location: string;
   profile_image: string;
   createdAt: string;
@@ -25,26 +24,29 @@ interface BloodDonerCard {
 
 type BloodcardDonate = {
   id: string;
+  gender: "M" | "F";
   nickname: string;
-  donationDate: string;
-  donationLocation: string;
+  donor_profile_image?: string;
+  donor_username: string;
+  introduction: string;
+  region: string;
   profile_image: string;
+  receiver_id: number;
   image: string;
-  introduce: string;
-  createdAt: string;
-  updatedAt: string;
+  age: number;
+  created_at: string;
 };
 
 type BloodcardRequest = {
-  id: string;
-  nickname: string;
-  donationLocation: string;
-  profile_image: string;
+  id: number;
   image: string;
-  introduce: string;
-  story: string;
-  createdAt: string; // ISO 8601 날짜 문자열
-  updatedAt: string; // ISO 8601 날짜 문자열
+  requester_username: string;
+  requester_profile_image: string;
+  blood_type: string;
+  receiver_id: number;
+  region: string;
+  reason: string;
+  created_at: string;
 };
 
 export type { BloodCard, BloodDonerCard, BloodcardDonate, BloodcardRequest };

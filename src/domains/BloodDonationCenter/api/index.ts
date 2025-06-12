@@ -1,9 +1,6 @@
-import { apiInstance } from "@/src/api";
+import { apiServerInstance } from "@/src/api";
 import { BloodDonationCenter } from "@/src/domains/BloodDonationCenter/types";
 
-type GetBloodDonationCentersResponse = {
-  bloodDonationCenter: BloodDonationCenter[];
-};
 async function getBloodDonationCenters({
   latitude,
   longitude,
@@ -11,10 +8,11 @@ async function getBloodDonationCenters({
   latitude: number;
   longitude: number;
 }) {
-  const { data } = await apiInstance.get<GetBloodDonationCentersResponse>(
-    `/BloodDonationCenter?longitude=${longitude}&latitude=${latitude}`,
-  );
-  return data.bloodDonationCenter;
+  const { data } = await apiServerInstance.get<{
+    centers: BloodDonationCenter[];
+    count: number;
+  }>(`/services/blood-centers-nearby/?lon=${longitude}&lat=${latitude}`);
+  return data.centers;
 }
 
 export { getBloodDonationCenters };
