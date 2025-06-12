@@ -40,8 +40,8 @@ function RouteComponent() {
             </Button>
           </div>
         </Header>
-        <ChatProvider roomId={room_id}>
-          <ChatLogs messages={messages} />
+        <ChatProvider roomId={room_id} messages={messages}>
+          <ChatLogs />
           <ChatInput />
         </ChatProvider>
       </div>
