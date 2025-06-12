@@ -1,4 +1,5 @@
 import { createChatRoom } from "@/src/api/chat";
+import { assetMap } from "@/src/assets";
 import { Button } from "@/src/components/common/button";
 import { ErrorComponent } from "@/src/components/common/error";
 import Header from "@/src/components/common/header";
@@ -41,21 +42,30 @@ function RouteComponent() {
       <Header title="헌혈증 기부 상세" />
       <div className="flex flex-col gap-4 p-4">
         <img
-          src={data.image}
-          className="h-[300px] w-full rounded-xl object-cover shadow-xl"
+          src={assetMap["characterIcon"]}
+          className="h-[300px] w-full rounded-xl object-contain shadow-xl"
         />
         <section>
-          <p className="py-2 text-lg">{data.nickname}</p>
+          <p className="py-2 text-lg">
+            {data.donor_username ?? "민수의 겨울방학"}
+          </p>
           <hr />
-          <Info field="지역" value={data.donationLocation} />
+          <Info field="지역" value={data.region} />
+          <Info field="나이" value={data.age.toString()} />
+          <Info field="성별" value={data.gender === "F" ? "여성" : "남성"} />
         </section>
         <section>
           <h2 className="text-xl">소개</h2>
-          <p className="p-2">{data.introduce}</p>
+          <p className="p-2">{data.introduction}</p>
         </section>
         <Button
           type="button"
-          onClick={() => mutate({ post_id: data.id, receiver_id: "qwrqwr" })}
+          onClick={() =>
+            mutate({
+              post_id: data.id,
+              receiver_id: data.receiver_id.toString(),
+            })
+          }
         >
           연락하기
         </Button>

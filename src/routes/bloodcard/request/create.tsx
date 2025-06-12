@@ -2,9 +2,13 @@ import { Button } from "@/src/components/common/button";
 import { FormRow } from "@/src/components/common/form";
 import Header from "@/src/components/common/header";
 import { FileInput } from "@/src/components/common/input";
-import Select from "@/src/components/common/select";
 import { REGIONS } from "@/src/constants/form";
-import { createFileRoute } from "@tanstack/react-router";
+import {
+  createBloodCardRequest,
+  CreateDonationRequest,
+} from "@/src/domains/BloodCard/api";
+import { useMutation } from "@tanstack/react-query";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 import { IoMdCamera } from "react-icons/io";
 
@@ -12,40 +16,29 @@ export const Route = createFileRoute("/bloodcard/request/create")({
   component: RouteComponent,
 });
 
-type CreateDonation = {
-  bloodType:
-    | "Rh+A"
-    | "Rh-A"
-    | "Rh+B"
-    | "Rh-B"
-    | "Rh+O"
-    | "Rh-O"
-    | "Rh+AB"
-    | "Rh-AB";
-  age: number;
-  gender: "MALE" | "FEMALE";
-  location: (typeof REGIONS)[number];
-  story: string;
-  deadline: Date;
-  image?: File;
-};
 function RouteComponent() {
-  const { register, handleSubmit, setValue, watch } = useForm<CreateDonation>({
-    defaultValues: {
-      bloodType: "Rh+A",
-      age: 0,
-      gender: "MALE",
-      location: "강원특별자치도",
-      deadline: new Date(),
-      story: "",
-      image: undefined,
-    },
-    mode: "onChange",
-  });
+  const { register, handleSubmit, setValue, watch } =
+    useForm<CreateDonationRequest>({
+      defaultValues: {
+        blood_type: "A+",
+        region: "강원특별자치도",
+        reason: "",
+        image: undefined,
+      },
+      mode: "onChange",
+    });
+  const navigate = useNavigate();
   const donateImage = watch("image");
-
-  const onSubmit = (data: CreateDonation) => {
-    console.log("🩸 Submitted donation request:", data);
+  const { mutate: createRequest } = useMutation({
+    mutationFn: createBloodCardRequest,
+    onSuccess: ({ id }) =>
+      navigate({
+        to: "/bloodcard/request/detail/$postId",
+        params: { postId: id.toString() },
+      }),
+  });
+  const onSubmit = (data: CreateDonationRequest) => {
+    createRequest(data);
   };
 
   return (
@@ -81,23 +74,14 @@ function RouteComponent() {
             )}
           </FileInput>
           {/* 혈액형 */}
-          <FormRow label="혈액형">
+          {/* <FormRow label="혈액형">
             <Select
               className="w-1/2 rounded-full bg-primary text-center"
-              options={[
-                "Rh+A",
-                "Rh-A",
-                "Rh+B",
-                "Rh-B",
-                "Rh+O",
-                "Rh-O",
-                "Rh+AB",
-                "Rh-AB",
-              ]}
+              options={["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"]}
               placeholder="혈액형을 선택하세요"
               {...register("bloodType")}
             />
-          </FormRow>
+          </FormRow> */}
 
           {/* 나이 */}
           {/* <FormRow label="나이">
@@ -111,7 +95,7 @@ function RouteComponent() {
           </FormRow> */}
 
           {/* 성별 */}
-          <FormRow label="성별">
+          {/* <FormRow label="성별">
             <div className="flex gap-6 pl-4">
               <label className="flex items-center gap-2">
                 <input
@@ -132,7 +116,7 @@ function RouteComponent() {
                 남성
               </label>
             </div>
-          </FormRow>
+          </FormRow> */}
 
           {/* 지역 */}
           <FormRow label="지역">
@@ -142,7 +126,7 @@ function RouteComponent() {
                   <input
                     type="radio"
                     value={region}
-                    {...register("location")}
+                    {...register("region")}
                     className="peer hidden"
                   />
                   <div className="cursor-pointer rounded border py-1 text-center peer-checked:bg-primary peer-checked:text-white">
@@ -153,14 +137,14 @@ function RouteComponent() {
             </div>
           </FormRow>
 
-          {/* 수혈 필요 날짜 */}
+          {/* 수혈 필요 날짜
           <FormRow label="수혈 필요 날짜">
             <input
               type="date"
               className="w-1/2 rounded-full border bg-primary px-4 py-2"
               {...register("deadline", { valueAsDate: true })}
             />
-          </FormRow>
+          </FormRow> */}
           <FormRow label="헌혈증 사연">
             <textarea
               className="w-full resize-none overflow-hidden rounded-xl border-2 border-primary p-2"
@@ -170,7 +154,7 @@ function RouteComponent() {
                 target.style.height = "auto";
                 target.style.height = `${target.scrollHeight}px`;
               }}
-              {...register("story")}
+              {...register("reason")}
             />
           </FormRow>
 
