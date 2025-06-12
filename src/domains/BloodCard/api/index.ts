@@ -1,42 +1,38 @@
-import { apiInstance } from "@/src/api";
+import { apiServerInstance } from "@/src/api";
+import { REGIONS } from "@/src/constants/form";
 import {
   BloodCard,
   BloodcardDonate,
   BloodcardRequest,
-  BloodDonerCard,
 } from "@/src/domains/BloodCard/types";
+import { createFormData } from "@/src/utils/formdata";
 
-type RecentBloodCard = {
-  recentBloodCard: BloodCard[];
-};
 async function getRecentBloodCard(): Promise<BloodCard[]> {
-  const { data } = await apiInstance.get<RecentBloodCard>(
-    "/bloodCard/requests/recent",
+  const { data } = await apiServerInstance.get<BloodCard[]>(
+    "/donation-cards/donate",
   );
-  return data.recentBloodCard;
+  return data;
 }
 
-type BloodCardRequests = {
-  bloodCardRequests: BloodCard[];
-};
-async function getBloodCardRequests(): Promise<BloodCard[]> {
-  const { data } =
-    await apiInstance.get<BloodCardRequests>(`/bloodCard/requests`);
-  return data.bloodCardRequests;
+//헌혈증 요청
+async function getBloodCardRequests(): Promise<BloodcardRequest[]> {
+  const { data } = await apiServerInstance.get<BloodcardRequest[]>(
+    `/donation-cards/request/`,
+  );
+  return data;
 }
 
-type BloodCardDonates = {
-  bloodCardDonates: BloodDonerCard[];
-};
-async function getBloodCardDonates(): Promise<BloodDonerCard[]> {
-  const { data } =
-    await apiInstance.get<BloodCardDonates>(`/bloodCard/donates`);
-  return data.bloodCardDonates;
+//헌혈증 기부 목록
+async function getBloodCardDonates(): Promise<BloodCard[]> {
+  const { data } = await apiServerInstance.get<BloodCard[]>(
+    `/donation-cards/donate/`,
+  );
+  return data;
 }
 
 async function getBloodCardDonateDetail(id: string): Promise<BloodcardDonate> {
-  const { data } = await apiInstance.get<BloodcardDonate>(
-    `/bloodcard/donations/detail/${id}`,
+  const { data } = await apiServerInstance.get<BloodcardDonate>(
+    `/donation-cards/donate/${id}/`,
   );
   return data;
 }
@@ -44,8 +40,50 @@ async function getBloodCardDonateDetail(id: string): Promise<BloodcardDonate> {
 async function getBloodCardRequestDetail(
   id: string,
 ): Promise<BloodcardRequest> {
-  const { data } = await apiInstance.get<BloodcardRequest>(
-    `/bloodcard/requests/detail/${id}`,
+  const { data } = await apiServerInstance.get<BloodcardRequest>(
+    `/donation-cards/request/${id}/`,
+  );
+  return data;
+}
+
+async function createBloodCardDonate(formData: {
+  blood_type: "A+" | "A-" | "B+" | "B-" | "O+" | "O-" | "AB+" | "AB-";
+  age: number;
+  gender: "M" | "F";
+  region: string;
+  introduction: string;
+  image?: File;
+}) {
+  const formDataWithImage = createFormData(formData);
+  const { data } = await apiServerInstance.post<BloodCard>(
+    `/donation-cards/donate/create/`,
+    formDataWithImage,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    },
+  );
+  return data;
+}
+
+type CreateDonationRequest = {
+  blood_type: "A+" | "A-" | "B+" | "B-" | "O+" | "O-" | "AB+" | "AB-";
+  region: (typeof REGIONS)[number];
+  reason: string;
+  image?: File;
+};
+
+async function createBloodCardRequest(formData: CreateDonationRequest) {
+  const formDataWithImage = createFormData(formData);
+  const { data } = await apiServerInstance.post<BloodcardRequest>(
+    `/donation-cards/request/create/`,
+    formDataWithImage,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    },
   );
   return data;
 }
@@ -56,4 +94,8 @@ export {
   getBloodCardDonates,
   getBloodCardDonateDetail,
   getBloodCardRequestDetail,
+  createBloodCardDonate,
+  createBloodCardRequest,
 };
+
+export type { CreateDonationRequest };
