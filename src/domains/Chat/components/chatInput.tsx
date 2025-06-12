@@ -20,9 +20,7 @@ function ChatInput() {
       reader.onload = (e) => {
         const imageData = e.target?.result as string;
         sendImage({
-          sender: "doner1",
-          message_type: "image",
-          content: imageData,
+          image_url: imageData,
         });
       };
       reader.readAsDataURL(file);
@@ -32,10 +30,7 @@ function ChatInput() {
   const handleSendMessage = () => {
     if (textInputRef.current?.value) {
       sendMessage({
-        sender: "doner1",
-        message_type: "text",
-        content: textInputRef.current?.value ?? "",
-        sent_at: new Date().toISOString(),
+        message: textInputRef.current?.value ?? "",
       });
       textInputRef.current.value = "";
     }
