@@ -2,14 +2,14 @@ import {
   Action,
   SocketState,
 } from "@/src/domains/Chat/components/chatProvider";
-import { ImageMessage, Message } from "@/src/domains/Chat/types";
+import { SendMessagePayload } from "@/src/domains/Chat/types";
 import { createContext, useContext } from "react";
 const SocketContext = createContext<
   | {
       state: SocketState;
       dispatch: React.Dispatch<Action>;
-      sendMessage: (message: Omit<Message, "chatroom_id">) => void;
-      sendImage: (image: Omit<ImageMessage, "chatroom_id">) => void;
+      sendMessage: (message: Pick<SendMessagePayload, "message">) => void;
+      sendImage: (message: Pick<SendMessagePayload, "image_url">) => void;
     }
   | undefined
 >(undefined);
