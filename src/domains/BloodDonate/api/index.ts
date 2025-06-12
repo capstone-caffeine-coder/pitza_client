@@ -101,9 +101,29 @@ const matchAccept = async (user) => {
   return response.data;
 };
 
+type MatchRejectResponse = {
+  message: string;
+};
+const rejectMatch = async (user: number, donation_request: number) => {
+  const response = await apiServerInstance.post<MatchRejectResponse>(
+    "/donations/match/reject/",
+    createFormData({
+      user,
+      donation_request,
+    }),
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    },
+  );
+  return response.data;
+};
+
 export {
   bloodDontationMatch,
   getBloodDonationDetail,
   createBloodDonationRequest,
   matchAccept,
+  rejectMatch,
 };

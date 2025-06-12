@@ -3,9 +3,9 @@ import { ErrorComponent } from "@/src/components/common/error";
 import Header from "@/src/components/common/header";
 import { SpinnerModal } from "@/src/components/common/spinner";
 import {
-  bloodDontationMatch,
   getBloodDonationDetail,
   matchAccept,
+  rejectMatch,
 } from "@/src/domains/BloodDonate/api";
 import { Info } from "@/src/domains/BloodDonate/components/info";
 import MatchPending from "@/src/domains/BloodDonate/components/matchPending";
@@ -32,13 +32,17 @@ function RouteComponent() {
   const location = useLocation();
   const navigate = useNavigate();
   const router = useRouter();
+
   const { mutate: rematch, isPending: rematchPending } = useMutation({
-    mutationFn: bloodDontationMatch,
+    mutationFn: async () => {
+      await rejectMatch(data?.requester ?? 0, data?.id ?? 0);
+      return getBloodDonationDetail(data?.id.toString() ?? "");
+    },
     onSuccess: (rematchData) => {
       if (rematchData) {
         router.navigate({
           to: "/donation/details/$donationId",
-          params: { donationId: rematchData.id },
+          params: { donationId: rematchData.id.toString() },
           replace: true,
         });
       }
