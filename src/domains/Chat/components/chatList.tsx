@@ -29,8 +29,8 @@ const ChatList = () => {
         {data?.map((chat) => (
           <Link
             to="/chat/rooms/$roomId"
-            params={{ roomId: chat.roomId }}
-            key={chat.roomId}
+            params={{ roomId: chat.chatroom_id }}
+            key={chat.chatroom_id}
           >
             <li key={chat.id} className="flex gap-4 border-b p-4">
               <img
@@ -40,7 +40,7 @@ const ChatList = () => {
               />
               <div>
                 <h2 className="text-xl">{chat.partner.name}</h2>
-                <p className="text-subText">{chat.lastMessage}</p>
+                <p className="text-subText">{chat.last_message}</p>
               </div>
             </li>
           </Link>

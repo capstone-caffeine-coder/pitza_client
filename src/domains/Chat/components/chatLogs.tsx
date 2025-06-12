@@ -1,17 +1,19 @@
 import { useChatContext } from "@/src/domains/Chat/hooks/useChatContext";
-import { ImageMessage, Message } from "@/src/domains/Chat/types";
+import { Messages, SendMessagePayload } from "@/src/domains/Chat/types";
+import { useAuthStore } from "@/src/store/authStore";
 
-function ChatLogs({ messages }: { messages: (Message | ImageMessage)[] }) {
+function ChatLogs() {
   const {
     state: { messages: messagesAfterConnection },
   } = useChatContext();
-  const chatLogs = messages.concat(messagesAfterConnection);
+  const nickname = useAuthStore((state) => state.nickname);
+
   return (
     <div className="flex h-full flex-col gap-4 overflow-y-auto bg-background p-4 pb-20 pt-24">
-      {chatLogs.map((message) => (
-        <div className="flex w-full">
+      {messagesAfterConnection.map((message) => (
+        <div className="flex w-full" key={message.message}>
           <div
-            className={`flex max-w-[80%] rounded-xl bg-white p-2 ${message.sender.includes("doner") ? "ml-auto" : "mr-auto"}`}
+            className={`flex max-w-[80%] rounded-xl bg-white p-2 ${message.sender === nickname ? "ml-auto" : "mr-auto"}`}
           >
             <MessageLog message={message} />
           </div>
@@ -21,7 +23,12 @@ function ChatLogs({ messages }: { messages: (Message | ImageMessage)[] }) {
   );
 }
 
-const MessageLog = ({ message }: { message: Message | ImageMessage }) => {
+const MessageLog = ({
+  message,
+}: {
+  message: Messages | SendMessagePayload;
+}) => {
+  console.log(message);
   if (message.message_type === "text") {
     return <TextLog message={message} />;
   }
@@ -30,12 +37,12 @@ const MessageLog = ({ message }: { message: Message | ImageMessage }) => {
   }
 };
 
-const TextLog = ({ message }: { message: Message }) => {
-  return <p className="break-all">{message.content}</p>;
+const TextLog = ({ message }: { message: Messages | SendMessagePayload }) => {
+  return <p className="break-all">{message.message}</p>;
 };
 
-const ImageLog = ({ message }: { message: ImageMessage }) => {
-  return <img src={message.content} alt={"메시지"} />;
+const ImageLog = ({ message }: { message: Messages | SendMessagePayload }) => {
+  return <img src={message.image_url as string} alt={"메시지"} />;
 };
 
 export default ChatLogs;
