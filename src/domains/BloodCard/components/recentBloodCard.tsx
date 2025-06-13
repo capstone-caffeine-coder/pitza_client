@@ -58,7 +58,7 @@ const RecentBloodCard = () => {
     <div className="flex w-full flex-col gap-4 p-4">
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-bold">최근 헌혈증</h2>
-        <span className="text-sm text-gray-500">최근 3개</span>
+        <span className="text-sm text-gray-500">최근 {data?.length}개</span>
       </div>
 
       <div className="flex flex-col gap-4">
