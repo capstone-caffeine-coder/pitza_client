@@ -29,7 +29,7 @@ function RouteComponent() {
           <Button className="w-1/2">취소하기</Button>
         </div>
         <img
-          src={data.image?.replace("minio", "172.0.0.1")}
+          src={data.image_url}
           className="h-[400px] w-full rounded-xl object-contain shadow-xl"
         />
         <section>
