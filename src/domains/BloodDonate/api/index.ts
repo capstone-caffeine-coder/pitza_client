@@ -120,10 +120,14 @@ const rejectMatch = async (user: number, donation_request: number) => {
   return response.data;
 };
 
+const sendMatchEmail = () => {
+  return apiServerInstance.post("/services/send-match-email/");
+};
 export {
   bloodDontationMatch,
   getBloodDonationDetail,
   createBloodDonationRequest,
   matchAccept,
   rejectMatch,
+  sendMatchEmail,
 };

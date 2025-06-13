@@ -107,7 +107,7 @@ export const ChatProvider = ({
     (payload: Pick<SendMessagePayload, "message">) => {
       const msg: SendMessagePayload = {
         ...payload,
-        roomId: roomId.toString(),
+        room_id: roomId.toString(),
         message_type: "text",
         sender: userNickname,
         image_url: null,
@@ -126,7 +126,7 @@ export const ChatProvider = ({
     (payload: Pick<SendMessagePayload, "image_url">) => {
       const msg: SendMessagePayload = {
         ...payload,
-        roomId: roomId.toString(),
+        room_id: roomId.toString(),
         message_type: "image",
         sender: userNickname,
         message: "",
