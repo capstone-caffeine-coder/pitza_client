@@ -8,6 +8,7 @@ const ChatList = () => {
   const { data, error, isPending } = useQuery({
     queryKey: ["chatList"],
     queryFn: getChats,
+    staleTime: 0,
   });
 
   if (isPending) return <ChatListSkeleton />;
@@ -26,25 +27,28 @@ const ChatList = () => {
   return (
     <div className="flex w-full flex-col items-center">
       <ul className="w-full">
-        {data?.map((chat) => (
-          <Link
-            to="/chat/rooms/$roomId"
-            params={{ roomId: chat.chatroom_id }}
-            key={chat.chatroom_id}
-          >
-            <li key={chat.id} className="flex gap-4 border-b p-4">
-              <img
-                src={chat.partner.profileImage}
-                alt={`${chat.partner.name}의 프로필 이미지`}
-                className="h-14 w-14 rounded-xl"
-              />
-              <div>
-                <h2 className="text-xl">{chat.partner.name}</h2>
-                <p className="text-subText">{chat.last_message}</p>
-              </div>
-            </li>
-          </Link>
-        ))}
+        {data?.map((chat) => {
+          if (!chat.partner) return null; // 파트너 정보가 없으면 렌더링하지 않음
+          return (
+            <Link
+              to="/chat/rooms/$roomId"
+              params={{ roomId: chat.chatroom_id }}
+              key={chat.chatroom_id}
+            >
+              <li key={chat.id} className="flex gap-4 border-b p-4">
+                <img
+                  src={chat.partner.profileImage ?? assetMap["characterIcon"]}
+                  alt={`${chat.partner.name}의 프로필 이미지`}
+                  className="h-14 w-14 rounded-xl"
+                />
+                <div>
+                  <h2 className="text-xl">{chat.partner.name}</h2>
+                  <p className="text-subText">{chat.last_message}</p>
+                </div>
+              </li>
+            </Link>
+          );
+        })}
       </ul>
     </div>
   );

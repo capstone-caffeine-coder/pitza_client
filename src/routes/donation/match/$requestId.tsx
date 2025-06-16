@@ -41,14 +41,14 @@ function RouteComponent() {
 
   const { mutate: rematch, isPending: rematchPending } = useMutation({
     mutationFn: async () => {
-      await rejectMatch(data?.requester ?? 0, data?.id ?? 0);
+      await rejectMatch(userId ?? 0, data?.id ?? 0);
       return getBloodDonationDetail(data?.id.toString() ?? "");
     },
     onSuccess: (rematchData) => {
       if (rematchData) {
         router.navigate({
-          to: "/donation/details/$donationId",
-          params: { donationId: rematchData.id.toString() },
+          to: "/donation/match/$requestId",
+          params: { requestId: rematchData.id.toString() },
           replace: true,
         });
       }

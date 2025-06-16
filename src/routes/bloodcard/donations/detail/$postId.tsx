@@ -42,7 +42,7 @@ function RouteComponent() {
       <Header title="헌혈증 기부 상세" />
       <div className="flex flex-col gap-4 p-4">
         <img
-          src={assetMap["characterIcon"]}
+          src={data.image ?? assetMap.characterIcon}
           className="h-[300px] w-full rounded-xl object-contain shadow-xl"
         />
         <section>
