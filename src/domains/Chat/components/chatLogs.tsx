@@ -1,8 +1,14 @@
 import { useChatContext } from "@/src/domains/Chat/hooks/useChatContext";
 import { Messages, SendMessagePayload } from "@/src/domains/Chat/types";
 import { useAuthStore } from "@/src/store/authStore";
+import { Dispatch, SetStateAction } from "react";
+import { GoReport } from "react-icons/go";
 
-function ChatLogs() {
+function ChatLogs({
+  setReportMessageId,
+}: {
+  setReportMessageId: Dispatch<SetStateAction<number | null>>;
+}) {
   const {
     state: { messages: messagesAfterConnection },
   } = useChatContext();
@@ -13,9 +19,17 @@ function ChatLogs() {
       {messagesAfterConnection.map((message) => (
         <div className="flex w-full" key={message.message}>
           <div
-            className={`flex max-w-[80%] rounded-xl bg-white p-2 ${message.sender === nickname ? "ml-auto" : "mr-auto"}`}
+            className={`flex max-w-[80%] rounded-xl p-2 ${message.sender === nickname ? "ml-auto" : "mr-auto"} items-center justify-center gap-4`}
           >
             <MessageLog message={message} />
+            {message.sender !== nickname && (
+              <GoReport
+                size={20}
+                fill="red"
+                className="cursor-pointer opacity-30 hover:opacity-100"
+                onClick={() => setReportMessageId(message.id)}
+              />
+            )}
           </div>
         </div>
       ))}
@@ -38,11 +52,17 @@ const MessageLog = ({
 };
 
 const TextLog = ({ message }: { message: Messages | SendMessagePayload }) => {
-  return <p className="break-all">{message.message}</p>;
+  return <p className="break-all rounded-xl bg-white p-2">{message.message}</p>;
 };
 
 const ImageLog = ({ message }: { message: Messages | SendMessagePayload }) => {
-  return <img src={message.image_url as string} alt={"메시지"} />;
+  return (
+    <img
+      src={message.image_url as string}
+      alt={"메시지"}
+      className="rounded-xl bg-white p-4"
+    />
+  );
 };
 
 export default ChatLogs;

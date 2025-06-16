@@ -21,7 +21,7 @@ export const Route = createFileRoute("/chat/rooms/$roomId")({
 function RouteComponent() {
   const routeApi = getRouteApi("/chat/rooms/$roomId");
   const { messages, room_id } = routeApi.useLoaderData();
-  const [modal, setModal] = useState(false);
+  const [reportMessageId, setReportMessageId] = useState<number | null>(null);
 
   return (
     <>
@@ -30,22 +30,18 @@ function RouteComponent() {
           title="채팅"
           className="absolute left-0 top-0 w-full bg-white p-4 text-center"
         >
-          <div className="absolute right-0 top-0 flex h-full items-center p-4">
-            <Button
-              variant={"none"}
-              type="button"
-              onClick={() => setModal(true)}
-            >
-              <GoReport size={20} />
-            </Button>
-          </div>
+          <div className="absolute right-0 top-0 flex h-full items-center p-4"></div>
         </Header>
         <ChatProvider roomId={room_id} messages={messages}>
-          <ChatLogs />
+          <ChatLogs setReportMessageId={setReportMessageId} />
           <ChatInput />
         </ChatProvider>
       </div>
-      <ReportModal visible={modal} toggle={() => setModal((prev) => !prev)} />
+      <ReportModal
+        messageId={reportMessageId}
+        setMessageId={setReportMessageId}
+        chatroom_id={room_id}
+      />
     </>
   );
 }

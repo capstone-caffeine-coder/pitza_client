@@ -6,6 +6,7 @@ import Header from "@/src/components/common/header";
 import { SpinnerModal } from "@/src/components/common/spinner";
 import { getBloodCardDonateDetail } from "@/src/domains/BloodCard/api";
 import { Info } from "@/src/domains/BloodCard/components/info";
+import { useAuthStore } from "@/src/store/authStore";
 import { useMutation } from "@tanstack/react-query";
 import {
   createFileRoute,
@@ -37,6 +38,7 @@ function RouteComponent() {
       });
     },
   });
+  const userId = useAuthStore((state) => state.id);
   return (
     <>
       <Header title="헌혈증 기부 상세" />
@@ -58,17 +60,19 @@ function RouteComponent() {
           <h2 className="text-xl">소개</h2>
           <p className="p-2">{data.introduction}</p>
         </section>
-        <Button
-          type="button"
-          onClick={() =>
-            mutate({
-              post_id: data.id,
-              receiver_id: data.receiver_id.toString(),
-            })
-          }
-        >
-          연락하기
-        </Button>
+        {data.receiver_id !== userId && (
+          <Button
+            type="button"
+            onClick={() =>
+              mutate({
+                post_id: data.id,
+                receiver_id: data.receiver_id.toString(),
+              })
+            }
+          >
+            연락하기
+          </Button>
+        )}
       </div>
       {isPending && <SpinnerModal />}
     </>

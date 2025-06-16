@@ -7,27 +7,32 @@ import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 
 const REPORT_LIST = [
-  { type: "qwrqwrwr", message: "욕설 및 성희롱" },
-  { type: "qwrqwrwr", message: "헌혈증 불법거래" },
-  { type: "qwrqwrwr", message: "헌혈증 대가성 거래" },
-  { type: "qwrqwrwr", message: "부적절한 태도" },
+  { message: "욕설 및 성희롱", description: "욕설, 성희롱, 비하 발언 등" },
+  {
+    message: "헌혈증 불법거래",
+    description: "헌혈증을 불법적으로 거래하는 행위",
+  },
+  { message: "헌혈증 대가성 거래", description: "헌혈증을 대가로 하는 거래" },
+  { message: "부적절한 태도", description: "부적절한 언행이나 태도" },
 ] as const;
 type ReportType = (typeof REPORT_LIST)[number];
 function ReportModal({
-  visible,
-  toggle,
+  messageId,
+  setMessageId,
   chatroom_id,
 }: {
-  visible: boolean;
-  toggle: () => void;
+  messageId: number | null;
+  setMessageId: React.Dispatch<React.SetStateAction<number | null>>;
+
   chatroom_id: string;
 }) {
   const [reportType, setReportType] = useState<ReportType>();
   function cancelReport() {
     setReportType(undefined);
-    toggle();
+    setMessageId(null);
   }
-  if (visible)
+
+  if (messageId)
     return (
       <Modal>
         <div className="w-full p-4">
@@ -42,6 +47,7 @@ function ReportModal({
               chatroom_id={chatroom_id}
               report={reportType}
               toggle={cancelReport}
+              message_id={messageId}
             />
           )}
         </div>
@@ -82,16 +88,18 @@ const ReportConfirm = ({
   report,
   chatroom_id,
   toggle,
+  message_id,
 }: {
   toggle: () => void;
   chatroom_id: string;
   report: ReportType;
+  message_id: number;
 }) => {
   const { mutate, isSuccess, isPending } = useMutation({
     mutationFn: reportChatUser,
   });
 
-  if (isSuccess) return <ReportResult toggle={toggle} />;
+  if (isSuccess) return <ReportResult />;
   return (
     <>
       <p className="p-4 text-center">{report.message}로 상대방을 신고할까요?</p>
@@ -102,7 +110,14 @@ const ReportConfirm = ({
         <Button
           variant={"destructive"}
           className="w-full"
-          onClick={() => mutate({ chatroom_id, reason: report.type })}
+          onClick={() =>
+            mutate({
+              chatroom_id,
+              description: report.description,
+              message_id,
+              reason: report.message,
+            })
+          }
         >
           신고하기
         </Button>
@@ -112,7 +127,7 @@ const ReportConfirm = ({
   );
 };
 
-const ReportResult = ({ toggle }: { toggle: () => void }) => {
+const ReportResult = () => {
   const navigate = useNavigate();
   return (
     <>

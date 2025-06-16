@@ -15,21 +15,20 @@ async function getChatLogs(roomId: string): Promise<ChatLogs> {
 
 interface ReportUserRequest {
   chatroom_id: string;
+  message_id: number;
   reason: string;
+  description: string;
 }
 async function reportChatUser(reportData: ReportUserRequest) {
-  // const { data } = await apiInstance.post(
-  //   `/chat/rooms/${reportData.chatroom_id}/reports`,
-  // );
-  // return data;
-  const r = await delay();
-  return r;
+  const { data } = await apiServerInstance.post(
+    `/chat/rooms/${reportData.chatroom_id}/reports`,
+    {
+      message_id: [reportData.message_id],
+      reason: reportData.reason,
+      description: reportData.description,
+    },
+  );
+  return data;
 }
-function delay() {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(true);
-    }, 1000);
-  });
-}
+
 export { getChats, getChatLogs, reportChatUser };
