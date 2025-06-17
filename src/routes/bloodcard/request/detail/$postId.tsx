@@ -6,6 +6,7 @@ import Header from "@/src/components/common/header";
 import { SpinnerModal } from "@/src/components/common/spinner";
 import { getBloodCardRequestDetail } from "@/src/domains/BloodCard/api";
 import { Info } from "@/src/domains/BloodCard/components/info";
+import { useAuthStore } from "@/src/store/authStore";
 import { useMutation } from "@tanstack/react-query";
 import {
   createFileRoute,
@@ -28,6 +29,8 @@ function RouteComponent() {
   const routeApi = getRouteApi("/bloodcard/request/detail/$postId");
   const data = routeApi.useLoaderData();
   const { navigate } = useRouter();
+  const userId = useAuthStore((state) => state.id);
+  console.log(userId);
 
   const { mutate, isPending } = useMutation({
     mutationFn: createChatRoom,
@@ -62,17 +65,19 @@ function RouteComponent() {
           <h2 className="text-xl">사연</h2>
           <p className="p-2">{data.reason}</p>
         </section>
-        <Button
-          type="button"
-          onClick={() =>
-            mutate({
-              post_id: data.id.toString(),
-              receiver_id: data.receiver_id.toString(),
-            })
-          }
-        >
-          연락하기
-        </Button>
+        {data.receiver_id !== userId && (
+          <Button
+            type="button"
+            onClick={() =>
+              mutate({
+                post_id: data.id.toString(),
+                receiver_id: data.receiver_id.toString(),
+              })
+            }
+          >
+            연락하기
+          </Button>
+        )}
       </div>
       {isPending && <SpinnerModal />}
     </>
