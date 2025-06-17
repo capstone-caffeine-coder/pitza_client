@@ -1,7 +1,7 @@
 import { useChatContext } from "@/src/domains/Chat/hooks/useChatContext";
 import { Messages, SendMessagePayload } from "@/src/domains/Chat/types";
 import { useAuthStore } from "@/src/store/authStore";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef } from "react";
 import { GoReport } from "react-icons/go";
 
 function ChatLogs({
@@ -13,9 +13,24 @@ function ChatLogs({
     state: { messages: messagesAfterConnection },
   } = useChatContext();
   const nickname = useAuthStore((state) => state.nickname);
+  const chatBoxRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (chatBoxRef.current) {
+        chatBoxRef.current.scrollTo({
+          top: chatBoxRef.current.scrollHeight,
+          behavior: "smooth",
+        });
+      }
+    }, 100);
+  }, []);
 
   return (
-    <div className="flex h-full flex-col gap-4 overflow-y-auto bg-background p-4 pb-20 pt-24">
+    <div
+      className="flex h-full flex-col gap-4 overflow-y-auto bg-background p-4 pb-20 pt-24"
+      ref={chatBoxRef}
+    >
       {messagesAfterConnection.map((message) => (
         <div className="flex w-full" key={message.message}>
           <div
