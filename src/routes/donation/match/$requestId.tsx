@@ -56,6 +56,9 @@ function RouteComponent() {
         router.navigate({
           to: "/donation/match/$requestId",
           params: { requestId: rematchData.id.toString() },
+          state: {
+            matchData: prevMatchData.matchData,
+          },
           replace: true,
         });
       }
