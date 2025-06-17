@@ -4,6 +4,7 @@ import Header from "@/src/components/common/header";
 import { Modal } from "@/src/components/common/modal";
 import { SpinnerModal } from "@/src/components/common/spinner";
 import {
+  bloodDontationMatch,
   getBloodDonationDetail,
   matchAccept,
   rejectMatch,
@@ -11,6 +12,7 @@ import {
 } from "@/src/domains/BloodDonate/api";
 import { Info } from "@/src/domains/BloodDonate/components/info";
 import MatchPending from "@/src/domains/BloodDonate/components/matchPending";
+import { MatchRequest } from "@/src/domains/BloodDonate/types";
 import { useAuthStore } from "@/src/store/authStore";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import {
@@ -34,15 +36,20 @@ function RouteComponent() {
     queryFn: () => getBloodDonationDetail(requestId),
   });
   const [donationIdModal, setDonationIdModal] = useState<string | null>(null);
+  const router = useRouter();
+  const prevMatchData = router.state.location.state as {
+    matchData: MatchRequest;
+  };
   const location = useLocation();
   const navigate = useNavigate();
-  const router = useRouter();
   const userId = useAuthStore((state) => state.id);
 
   const { mutate: rematch, isPending: rematchPending } = useMutation({
     mutationFn: async () => {
       await rejectMatch(userId ?? 0, data?.id ?? 0);
-      return getBloodDonationDetail(data?.id.toString() ?? "");
+      return bloodDontationMatch({
+        ...prevMatchData.matchData,
+      });
     },
     onSuccess: (rematchData) => {
       if (rematchData) {
@@ -168,7 +175,7 @@ function RouteComponent() {
             <h1 className="text-xl">헌혈 매칭 안내</h1>
             <p>헌혈 매칭이 완료되었습니다.</p>
             <p className="rounded-xl bg-primary p-4 text-white">
-              헌혈증 기부글 ID: {donationIdModal}
+              수혈자 등록번호 : {donationIdModal}
             </p>
             <Button
               className="w-full bg-blue-500 text-white"
