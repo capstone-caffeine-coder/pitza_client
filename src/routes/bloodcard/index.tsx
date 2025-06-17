@@ -12,7 +12,7 @@ function RouteComponent() {
   const [category, setCategory] = useState<"donate" | "request">("donate");
 
   return (
-    <main>
+    <main className="pb-20">
       <Header title="헌혈증 기부/요청" />
       <div className="mt-5 flex gap-5 border-b-2 px-4">
         <p

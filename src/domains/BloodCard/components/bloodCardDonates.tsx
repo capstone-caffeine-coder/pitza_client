@@ -38,12 +38,14 @@ function BloodCardDonates() {
           </Link>
         ))}
       </div>
-      <Link
-        to="/bloodcard/donations/create"
-        className="absolute bottom-24 left-0 w-full rounded-xl bg-primary p-4 text-center font-bold text-white"
-      >
-        헌혈증 기부하기
-      </Link>
+      <div className="absolute bottom-20 left-0 flex w-full bg-white p-4">
+        <Link
+          to="/bloodcard/donations/create"
+          className="w-full rounded-xl bg-primary p-4 text-center font-bold text-white"
+        >
+          헌혈증 기부하기
+        </Link>
+      </div>
     </>
   );
 }
