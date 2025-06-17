@@ -1,4 +1,3 @@
-import { Button } from "@/src/components/common/button";
 import { ErrorComponent } from "@/src/components/common/error";
 import Header from "@/src/components/common/header";
 import { SpinnerModal } from "@/src/components/common/spinner";
@@ -9,7 +8,6 @@ import { ChatProvider } from "@/src/domains/Chat/components/chatProvider";
 import ReportModal from "@/src/domains/Chat/components/reportModal";
 import { createFileRoute, getRouteApi } from "@tanstack/react-router";
 import { useState } from "react";
-import { GoReport } from "react-icons/go";
 
 export const Route = createFileRoute("/chat/rooms/$roomId")({
   loader: async ({ params: { roomId } }) => getChatLogs(roomId),
@@ -32,7 +30,7 @@ function RouteComponent() {
         >
           <div className="absolute right-0 top-0 flex h-full items-center p-4"></div>
         </Header>
-        <ChatProvider roomId={room_id} messages={messages}>
+        <ChatProvider roomId={parseInt(room_id)} messages={messages}>
           <ChatLogs setReportMessageId={setReportMessageId} />
           <ChatInput />
         </ChatProvider>
