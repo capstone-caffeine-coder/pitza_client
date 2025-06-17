@@ -26,7 +26,7 @@ function BloodCardDonates() {
             className="flex items-center gap-4 rounded-xl border-b p-4"
           >
             <img
-              src={card.image ?? assetMap["characterIcon"]}
+              src={card.donor_profile_image ?? assetMap["characterIcon"]}
               alt={`${card.nickname}의 프로필 이미지`}
               className="h-[70px] w-[70px] rounded-full border object-contain"
             />

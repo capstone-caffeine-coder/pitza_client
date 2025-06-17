@@ -2,6 +2,7 @@ interface BloodCard {
   id: number;
   age: number;
   donor_username: string;
+  donor_profile_image: string;
   nickname: string;
   gender: "M" | "F";
   blood_type: string;

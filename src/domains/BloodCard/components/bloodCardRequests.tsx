@@ -26,7 +26,7 @@ export default function BloodCardRequests() {
             className="flex items-center gap-4 rounded-xl border-b p-4"
           >
             <img
-              src={assetMap["characterIcon"]}
+              src={card.requester_profile_image ?? assetMap["characterIcon"]}
               alt={`${card.requester_username}의 프로필 이미지`}
               className="h-[70px] w-[70px] rounded-full border"
             />
