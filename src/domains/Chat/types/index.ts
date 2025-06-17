@@ -36,7 +36,7 @@ type ImageMessage = {
 
 type SendMessagePayload = {
   sender: string;
-  room_id: string;
+  room_id: number;
   message: string;
   message_type: "text" | "image";
   image_url: string | null;

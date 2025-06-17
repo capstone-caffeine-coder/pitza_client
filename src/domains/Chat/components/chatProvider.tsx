@@ -8,12 +8,12 @@ import { io, Socket } from "socket.io-client";
 interface SocketState {
   isConnected: boolean;
   messages: Array<Messages | SendMessagePayload>;
-  chatroomId: string;
+  chatroomId?: number;
 }
 
 type Action =
   | { type: "CHATLOGS"; payload: Array<Messages | SendMessagePayload> }
-  | { type: "CONNECT"; payload: string }
+  | { type: "CONNECT"; payload: number }
   | { type: "DISCONNECT" }
   | { type: "RECEIVE_MESSAGE"; payload: Messages }
   | { type: "SEND_MESSAGE"; payload: SendMessagePayload }
@@ -23,7 +23,6 @@ type Action =
 const initialState: SocketState = {
   isConnected: false,
   messages: [],
-  chatroomId: "",
 };
 
 // Reducer 정의
@@ -59,7 +58,7 @@ export const ChatProvider = ({
 }: {
   messages?: Array<Messages | SendMessagePayload>;
   children: React.ReactNode;
-  roomId: string;
+  roomId: number;
 }) => {
   const [state, dispatch] = useReducer(socketReducer, {
     ...initialState,
@@ -107,7 +106,7 @@ export const ChatProvider = ({
     (payload: Pick<SendMessagePayload, "message">) => {
       const msg: SendMessagePayload = {
         ...payload,
-        room_id: roomId.toString(),
+        room_id: roomId,
         message_type: "text",
         sender: userNickname,
         image_url: null,
@@ -126,7 +125,7 @@ export const ChatProvider = ({
     (payload: Pick<SendMessagePayload, "image_url">) => {
       const msg: SendMessagePayload = {
         ...payload,
-        room_id: roomId.toString(),
+        room_id: roomId,
         message_type: "image",
         sender: userNickname,
         message: "",
