@@ -186,13 +186,6 @@ function RouteComponent() {
             >
               📋 클립보드로 복사하기
             </Button>
-
-            <Button
-              className="w-full bg-secondary text-black"
-              onClick={() => sendEmail()}
-            >
-              이메일로 보내기
-            </Button>
             <Button className="w-full" onClick={() => navigate({ to: "/" })}>
               홈으로
             </Button>
