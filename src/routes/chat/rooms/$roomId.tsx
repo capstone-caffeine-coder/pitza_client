@@ -26,7 +26,7 @@ function RouteComponent() {
       <div className="relative h-full w-full">
         <Header
           title="채팅"
-          className="absolute left-0 top-0 w-full bg-white p-4 text-center"
+          className="absolute left-0 top-0 z-[5] w-full bg-white p-4 text-center"
         >
           <div className="absolute right-0 top-0 flex h-full items-center p-4"></div>
         </Header>
