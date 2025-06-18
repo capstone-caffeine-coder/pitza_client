@@ -29,6 +29,9 @@ function BloodCardDonates() {
               src={card.donor_profile_image ?? assetMap["characterIcon"]}
               alt={`${card.nickname}의 프로필 이미지`}
               className="h-[70px] w-[70px] rounded-full border object-contain"
+              onError={(e) => {
+                e.currentTarget.src = assetMap.characterIcon;
+              }}
             />
             <div>
               <p>{card.donor_username}</p>

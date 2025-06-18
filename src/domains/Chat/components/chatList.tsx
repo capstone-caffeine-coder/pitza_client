@@ -40,6 +40,9 @@ const ChatList = () => {
                   src={chat.partner.profileImage ?? assetMap["characterIcon"]}
                   alt={`${chat.partner.name}의 프로필 이미지`}
                   className="h-14 w-14 rounded-xl"
+                  onError={(e) => {
+                    e.currentTarget.src = assetMap.characterIcon;
+                  }}
                 />
                 <div>
                   <h2 className="text-xl">{chat.partner.name}</h2>

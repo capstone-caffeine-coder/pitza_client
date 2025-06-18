@@ -29,6 +29,9 @@ export default function BloodCardRequests() {
               src={card.requester_profile_image ?? assetMap["characterIcon"]}
               alt={`${card.requester_username}의 프로필 이미지`}
               className="h-[70px] w-[70px] rounded-full border"
+              onError={(e) => {
+                e.currentTarget.src = assetMap.characterIcon;
+              }}
             />
             <div>
               <p>{card.requester_username}</p>
